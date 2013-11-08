@@ -59,7 +59,8 @@ class UsersController extends BaseController
 		return View::make('admin.users.form')
 			->with('section', 'Modificar Usuario')
 			->with('action', 'save-update')
-			->with('user', User::find($id));
+			->with('user', User::find($id))
+                        ->with('user_type', UserType::all());
 	}
 
 	public function save_update()

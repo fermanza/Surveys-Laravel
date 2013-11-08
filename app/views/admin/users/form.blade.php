@@ -63,6 +63,25 @@
 				{{Form::password('password_confirmation', array('class' => 'form-control') )}}
 			</div>
 		</div>
+                
+		<div class="form-group">
+			<label for="" class="col-sm-2 control-label">Tipo de Usuario</label>
+			<div class="col-sm-6">
+                        <select name="user_type" id="user_type">
+                                @foreach( UserType::where( $user_type as $u_type )
+				{{Form::select('user_type', $user_type, $user->user_type) }}
+                                    <!--<option value="{{$u_type->id}}" {{ ($u_type->id == Session::get('app-id')) ? 'selected="selected"' : '' }} >{{$u_type->description}}</option>-->
+                                    <option value="{{$u_type->id}}">{{$u_type->description}}</option>
+                                @endforeach
+                        </select>
+			</div>
+                        
+                        <select name="app_id" id="app_id">
+                                @foreach( AppModel::where( 'id_company', '=', Auth::user()->company->id )->get() as $app )
+                                <option value="{{$app->id}}" {{ ($app->id == Session::get('app-id')) ? 'selected="selected"' : '' }} >{{$app->name_app}}</option>
+                                @endforeach
+                        </select>
+		</div>
 
 		{{Form::submit('Guardar', array('class' => 'btn btn-default'))}}
 

@@ -54,10 +54,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'vsencuestas',
-			'username'  => 'root',
-			'password'  => 'root',
+			'host'      => 'www.vanillasys.com',
+			'database'  => 'recurso1_encuestas',
+			'username'  => 'recurso1',
+			'password'  => 's495867dHM!',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
