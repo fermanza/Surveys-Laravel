@@ -1,17 +1,13 @@
 <?php
 	
-class UsersController extends BaseController
+class SurveysController extends BaseController
 {
 
 	public function index()
 	{
-            $users = User::where('active', '=', 1)
-                    ->select('users.*', 'users_type.description')
-                    ->join('users_type', 'users.user_type', '=', 'users_type.id')
-                    ->get();
-            return View::make('admin.users.index')
-                    ->with('section', 'Control de Usuarios')
-                    ->with('users', $users);
+            return View::make('admin.surveys.index')
+                    ->with('section', 'Selección de Encuestas')
+                    ->with('projects', Project::all());
 	}
 
 	public function create()

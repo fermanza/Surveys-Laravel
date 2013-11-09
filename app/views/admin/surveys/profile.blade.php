@@ -2,7 +2,7 @@
 
 @section('content')
 
-	{{Form::open( array('url' => '/admin/users/'.$action, 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal' ) )}}
+	{{Form::open( array('url' => '/admin/save-profile', 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal' ) )}}
 		{{Form::hidden('id', $user->id)}}
 	<fieldset>
 		<legend>Nuevo Usuario</legend>
@@ -62,17 +62,6 @@
 			<div class="col-sm-6">
 				{{Form::password('password_confirmation', array('class' => 'form-control') )}}
 			</div>
-		</div>
-                
-		<div class="form-group">
-                    <label for="" class="col-sm-2 control-label">Tipo de Usuario</label>
-                    <div class="col-sm-6">
-                        <select name="user_type" id="user_type" class="form-control">
-                            @foreach( $user_type as $u_type )
-                                <option value="{{$u_type->id}}" @if($user->user_type == $u_type->id) selected='selected' @endif >{{$u_type->description}}</option>
-                            @endforeach
-                        </select>
-                    </div>
 		</div>
 
 		{{Form::submit('Guardar', array('class' => 'btn btn-default'))}}

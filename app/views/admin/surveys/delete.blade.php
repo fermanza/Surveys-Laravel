@@ -2,10 +2,10 @@
 
 @section('content')
 
-	{{Form::open( array('url' => '/admin/users/', 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal' ) )}}
+	{{Form::open( array('url' => '/admin/users/delete', 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal' ) )}}
 		{{Form::hidden('id', $user->id)}}
 	<fieldset>
-		<legend>Nuevo Usuario</legend>
+		<legend>Eliminar Usuario</legend>
 
 		<div class="form-group">
 			<label for="" class="col-sm-2 control-label">Nombre</label>
@@ -34,15 +34,13 @@
 				{{Form::text('email', Input::old('email') ? Input::old('email') : $user->email, array('class' => 'form-control', 'disabled') )}}
 			</div>
 		</div>
-                
-		<div class="form-group">
-			<label for="" class="col-sm-2 control-label">Tipo de Usuario</label>
-			<div class="col-sm-10">
-				{{Form::text('user_type', $user_type->description, array('class' => 'form-control', 'disabled') )}}
-			</div>
-		</div>
 
 	</fieldset>
+
+	<h3>¿Estás seguro de eliminar a este usuario?</h3>
+	<p>Esta opción no se puede deshacer</p>
+
+	{{Form::submit('Eliminar', array('class' => 'btn btn-danger'))}}
 
 	{{Form::close()}}
 

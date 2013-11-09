@@ -28,7 +28,9 @@
 					<li>
 						{{link_to('admin/users', 'Usuarios')}}
 					</li>
-					
+					<li>
+						{{link_to('admin/surveys', 'Encuestas')}}
+					</li>
 					<!-- <li><a href="#">Link</a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>

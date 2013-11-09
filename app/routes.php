@@ -47,6 +47,10 @@ Route::get('/admin/users/details/{num}', array('before' => 'auth', 'uses' => 'Us
 Route::get('/admin/users/delete/{num}', array('before' => 'auth', 'uses' => 'UsersController@delete'));
 Route::post('/admin/users/delete', array('before' => 'auth', 'uses' => 'UsersController@delete_user'));
 
+Route::get('/admin/surveys', array('before' => 'auth', 'uses' => 'SurveysController@index'));
+Route::get('/admin/surveys/create', array('before' => 'auth', 'uses' => 'SurveysController@create'));
+Route::get('/admin/surveys/save-create', array('before' => 'auth', 'uses' => 'SurveysController@save_create'));
+
 
 //Webservices
 
