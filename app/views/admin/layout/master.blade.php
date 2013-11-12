@@ -29,7 +29,7 @@
 						{{link_to('admin/users', 'Usuarios')}}
 					</li>
 					<li>
-						{{link_to('admin/surveys', 'Encuestas')}}
+						{{link_to('admin/projects', 'Proyectos')}}
 					</li>
 					<!-- <li><a href="#">Link</a></li>
 					<li class="dropdown">

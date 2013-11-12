@@ -3,12 +3,21 @@
 class SurveysController extends BaseController
 {
 
-	public function index()
+	public function index($id_questionary)
 	{
-            return View::make('admin.surveys.index')
+            return View::make('admin.questionary.index')
                     ->with('section', 'Selección de Encuestas')
-                    ->with('projects', Project::all());
+                    ->with('questionaries', Questionary::find($id_questionary));
 	}
+        
+        public function view_surveys($id_survey)
+        {
+            $surveys = QuestionaryMade::where('questionary_id', '=', $id_survey)
+                    ->get();
+            return View::make('admin.surveys.index')
+                    ->with('section', 'Encuestas de ')
+                    ->with('surveys', $surveys);
+        }
 
 	public function create()
 	{

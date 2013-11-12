@@ -47,10 +47,16 @@ Route::get('/admin/users/details/{num}', array('before' => 'auth', 'uses' => 'Us
 Route::get('/admin/users/delete/{num}', array('before' => 'auth', 'uses' => 'UsersController@delete'));
 Route::post('/admin/users/delete', array('before' => 'auth', 'uses' => 'UsersController@delete_user'));
 
-Route::get('/admin/surveys', array('before' => 'auth', 'uses' => 'SurveysController@index'));
+
+Route::get('/admin/projects', array('before' => 'auth', 'uses' => 'ProjectsController@index'));
+
+Route::get('/admin/questionaries/{num}', array('before' => 'auth', 'uses' => 'QuestionariesController@index'));
+
+Route::get('/admin/surveys/{num}', array('before' => 'auth', 'uses' => 'SurveysController@index'));
 Route::get('/admin/surveys/create', array('before' => 'auth', 'uses' => 'SurveysController@create'));
 Route::get('/admin/surveys/save-create', array('before' => 'auth', 'uses' => 'SurveysController@save_create'));
-
+Route::get('/admin/surveys/view-surveys/{num}', array('before' => 'auth', 'uses' => 'SurveysController@view_surveys'));
+Route::get('/admin/surveys/details/{num}', array('before' => 'auth', 'uses' => 'SurveysController@details_surveys'));
 
 //Webservices
 
