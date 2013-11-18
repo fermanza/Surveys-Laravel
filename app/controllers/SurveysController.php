@@ -19,7 +19,7 @@ class SurveysController extends BaseController
             return View::make('admin.surveys.form_made')
                     ->with('section', 'Crear Encuestas')
                     ->with('id_questionary', $id_questionary)
-                    ->with('action', 'save-create-made-answers');
+                    ->with('action', 'save-create-made');
 	}
 
         public function save_create_made($id_questionary)
@@ -55,7 +55,7 @@ class SurveysController extends BaseController
                     ->with('questions', $questions)
                     ->with('id_questionary', $id_questionary)
                     ->with('answers', $answers)
-                    ->with('action', 'save-create-made');
+                    ->with('action', 'save-create-made-answers');
         }
                 
         
@@ -79,19 +79,6 @@ class SurveysController extends BaseController
 //                    return Redirect::to('/surveys/new_survey')->withInput()->withErrors($validator);
 //		}
 
-//		$qma = new QuestionaryMadeAnswers;
-//		$qma->questionary_id = Input::get('id');
-//		$qma->time = Input::get('patern_name');
-//		$qma->date = Input::get('matern_name');
-//		$qma->actitude = Input::get('email');
-//		$qma->incomming = Hash::make(Input::get('password'));
-//		$qma->estimated_age = Input::get('email');
-//                $qma->latitude = Input::get('user_type');
-//                $qma->longitude = Input::get('user_type');
-//                $qma->respondent_id = Input::get('user_type');
-//                $qma->url_facade = Input::get('');
-//		$qma->save();
-                
                 $survey_id = Input::get('id');
                 $questions = Question::
                     where('questionary_id', '=', $survey_id)
@@ -191,52 +178,6 @@ class SurveysController extends BaseController
 		return Redirect::to('/admin/users')->with('message', array(
 			'type' => 'success',
 			'message' => 'Usuario eliminado.'
-		));
-	}
-
-	public function profile()
-	{
-		return View::make('admin.users.profile')
-			->with('section', 'Perfil')
-			->with('user', Auth::user());
-	}
-
-	public function save_profile()
-	{
-
-		$validator = Validator::make(
-			Input::all(),
-			array(
-				'name' => 'required',
-				'patern_name' => 'required',
-				'matern_name' => 'required',
-				'email' => 'required|email',
-				'password' => 'confirmed'
-			)
-		);
-
-		if($validator->fails())
-		{
-			return Redirect::to('/admin/profile')->withInput()->withErrors($validator);
-		}
-
-		$user = Auth::user();
-
-		$user->name = Input::get('name');
-		$user->patern_name = Input::get('patern_name');
-		$user->matern_name = Input::get('matern_name');
-		$user->email = Input::get('email');
-		
-		if(Input::get('password'))
-			$user->password = Hash::make(Input::get('password'));
-
-		$user->active = 1;
-
-		$user->save();
-
-		return Redirect::to('/admin/profile')->with('message', array(
-			'type' => 'success',
-			'message' => 'Perfil actualizado.'
 		));
 	}
 

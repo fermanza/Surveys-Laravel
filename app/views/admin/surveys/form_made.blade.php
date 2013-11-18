@@ -23,6 +23,11 @@
                      weekStartDay:1*/
         });
     };
+    
+    function cancel () {
+        window.location.href="{{ URL::to('admin/surveys/'.$id_questionary) }}"
+    }
+
 </script>
 
     {{Form::open( array('url' => '/admin/surveys/'.$action, 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal' ) )}}
@@ -100,8 +105,9 @@
             </div>
         </div>
         
-        {{Form::submit('Guardar', array('class' => 'btn btn-default'))}}
-    
+        <input type="button" value="Cancelar" class="btn btn-default" onclick = "cancel();">
+        {{Form::submit('Guardar', array('class' => 'btn btn-success'))}}
+        
     </fieldset>
     {{Form::close()}}
 
