@@ -19,7 +19,7 @@
 				<td>{{$questionary->name}}</td>
 				<!--<td>{{$questionary->goal}}</td>-->
 				<td>
-                                    {{link_to('/admin/surveys/details/'.$questionary->id, 'Ver', array('class' => 'btn btn-info'))}}
+                                    {{link_to('/admin/surveys/'.$questionary->id, 'Ver', array('class' => 'btn btn-info'))}}
                                     {{link_to('/admin/surveys/view-surveys/'.$questionary->id, 'Ver Encuestas', array('class' => 'btn btn-primary'))}}
 <!--                                    {{link_to('/admin/surveys/delete/'.$questionary->id, 'Eliminar', array('class' => 'btn btn-danger'))}}-->
 				</td>

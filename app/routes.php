@@ -52,9 +52,13 @@ Route::get('/admin/projects', array('before' => 'auth', 'uses' => 'ProjectsContr
 
 Route::get('/admin/questionaries/{num}', array('before' => 'auth', 'uses' => 'QuestionariesController@index'));
 
+Route::get('/admin/questions/{num}', array('before' => 'auth', 'uses' => 'QuestionsController@index'));
+
 Route::get('/admin/surveys/{num}', array('before' => 'auth', 'uses' => 'SurveysController@index'));
-Route::get('/admin/surveys/create', array('before' => 'auth', 'uses' => 'SurveysController@create'));
-Route::get('/admin/surveys/save-create', array('before' => 'auth', 'uses' => 'SurveysController@save_create'));
+
+Route::get('/admin/surveys/new_survey/{num}', array('before' => 'auth', 'uses' => 'SurveysController@new_survey'));
+Route::post('/admin/surveys/save-create-made', array('before' => 'auth', 'uses' => 'SurveysController@save_create_made'));
+Route::post('/admin/surveys/save-create-made-answers', array('before' => 'auth', 'uses' => 'SurveysController@save_create_made_answers'));
 Route::get('/admin/surveys/view-surveys/{num}', array('before' => 'auth', 'uses' => 'SurveysController@view_surveys'));
 Route::get('/admin/surveys/details/{num}', array('before' => 'auth', 'uses' => 'SurveysController@details_surveys'));
 
