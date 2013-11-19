@@ -66,7 +66,7 @@
         </div>
         
         <div class="form-group {{($errors->has('birth_date') ? 'has-error' : '')}} ">
-            <label for="" class="col-sm-2 control-label">Fecha de Cumplea&ntilde;os</label>
+            <label for="" class="col-sm-2 control-label">Fecha de Nacimiento</label>
             <div class="col-sm-6">
                 <input type="text" size="48" id="birth_date" name="birth_date" onclick="" class="form-control" />
                 @if($errors->has('birth_date'))
@@ -78,9 +78,9 @@
         <div class="form-group {{($errors->has('sex') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Sexo</label>
             <div class="col-sm-6">
-                <input type="radio" name="sex" value="Masculino">Masculino
+                <input type="radio" name="sex" value="Masculino">&nbsp;Masculino
                 &nbsp;&nbsp;&nbsp;
-                <input type="radio" name="sex" value="Femenino">Femenino
+                <input type="radio" name="sex" value="Femenino">&nbsp;Femenino
             </div>
         </div>
         
@@ -105,7 +105,7 @@
         </div>
         
         <div class="form-group {{($errors->has('state') ? 'has-error' : '')}} ">
-            <label for="" class="col-sm-2 control-label">Estado</label>
+            <label for="" class="col-sm-2 control-label">Provincia</label>
             <div class="col-sm-6">
                 {{Form::text('state', $value = null, array('class' => 'form-control') )}}
                 @if($errors->has('state'))
@@ -125,7 +125,7 @@
         </div>
         
         <div class="form-group {{($errors->has('township') ? 'has-error' : '')}} ">
-            <label for="" class="col-sm-2 control-label">Ciudad</label>
+            <label for="" class="col-sm-2 control-label">Corregimiento</label>
             <div class="col-sm-6">
                 {{Form::text('township', $value = null, array('class' => 'form-control') )}}
                 @if($errors->has('township'))

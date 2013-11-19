@@ -19,7 +19,7 @@ class SurveysController extends BaseController
             $actitudes = array();
             $act = new StdClass();
             $act->value = 1;
-            $act->name = "Dispuesto";
+            $act->name = "A Favor";
             array_push($actitudes, $act);
             $act = new StdClass();
             $act->value = 2;
@@ -27,7 +27,7 @@ class SurveysController extends BaseController
             array_push($actitudes, $act);
             $act = new StdClass();
             $act->value = 3;
-            $act->name = "Indiferente";
+            $act->name = "En Contra";
             array_push($actitudes, $act);
             $actitude = 1;
             

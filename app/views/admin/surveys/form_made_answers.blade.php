@@ -25,7 +25,7 @@
                         <div class="col-sm-6">
                             @foreach($answers[$question->id] as $answer)
                                 <input type="radio" name="answers_radio[{{ $question->id }}]"
-                                       value="{{ $answer->id }}">{{ $answer->answer }}<br />
+                                       value="{{ $answer->id }}">&nbsp;{{ $answer->answer }}<br />
                             @endforeach
                         </div>
                     </td>
@@ -42,8 +42,8 @@
                 <td></td>
                 <td>
                     <div class="col-sm-6">
-                        <input type="radio" name="form_respondent" value="1">Si<br />
-                        <input type="radio" name="form_respondent" value="2">No
+                        <input type="radio" name="form_respondent" value="1">&nbsp;Si<br />
+                        <input type="radio" name="form_respondent" value="2">&nbsp;No
                     </div>
                 </td>
             </tr>

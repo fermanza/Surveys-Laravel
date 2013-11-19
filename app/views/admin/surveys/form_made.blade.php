@@ -57,7 +57,7 @@
         </div>
         
         <div class="form-group {{($errors->has('incomming') ? 'has-error' : '')}} ">
-            <label for="" class="col-sm-2 control-label">Ingreso</label>
+            <label for="" class="col-sm-2 control-label">Nivel Socioecon&oacute;mico</label>
             <div class="col-sm-6">
                 <select name="incomming" id="incomming" class="form-control">
                 <?php for( $i = 1; $i <= 10; $i++ ) { ?>
@@ -108,7 +108,7 @@
         </div>
         
         <div class="form-group {{($errors->has('url_facade') ? 'has-error' : '')}} ">
-            <label for="" class="col-sm-2 control-label">Fachada</label>
+            <label for="" class="col-sm-2 control-label">Fotograf&iacute;a de la Fachada</label>
             <div class="col-sm-6">
                 {{Form::file('url_facade', $value = null, array('class' => 'form-control') )}}
                 @if($errors->has('url_facade'))

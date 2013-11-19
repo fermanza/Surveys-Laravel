@@ -17,7 +17,7 @@
 			<tr>
 				<td>{{$project->id}}</td>
 				<td>{{$project->name}}</td>
-				<td>{{$project->goal}}</td>
+				<td>{{ number_format($project->goal) }}</td>
 				<td>
                                     {{link_to('/admin/questionaries/'.$project->id, 'Ver Cuestionarios', array('class' => 'btn btn-info'))}}
                                     <!--{{link_to('/admin/surveys/update/'.$project->id, 'Modificar', array('class' => 'btn btn-primary'))}}-->
