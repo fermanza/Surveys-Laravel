@@ -16,91 +16,127 @@ class SurveysController extends BaseController
         
 	public function new_survey($id_questionary)
 	{
+            $actitudes = array();
+            $act = new StdClass();
+            $act->value = 1;
+            $act->name = "Dispuesto";
+            array_push($actitudes, $act);
+            $act = new StdClass();
+            $act->value = 2;
+            $act->name = "Neutral";
+            array_push($actitudes, $act);
+            $act = new StdClass();
+            $act->value = 3;
+            $act->name = "Indiferente";
+            array_push($actitudes, $act);
+            $actitude = 1;
+            
             return View::make('admin.surveys.form_made')
                     ->with('section', 'Crear Encuestas')
                     ->with('id_questionary', $id_questionary)
+                    ->with('actitudes', $actitudes)
+                    ->with('actitude', $actitude)
                     ->with('action', 'save-create-made');
 	}
 
-        public function save_create_made($id_questionary)
+        public function save_create_made()
         {
+            $questionary_made = new QuestionaryMade();
+            $questionary_made->questionary_id = Input::get('id');
+            $questionary_made->date = Input::get('date');
+            $questionary_made->actitude = Input::get('actitude');
+            $questionary_made->incomming = Input::get('incomming');
+            $questionary_made->estimated_age = Input::get('estimated_age');
+            $questionary_made->latitude = Input::get('latitude');
+            $questionary_made->longitude = Input::get('longitude');
+            
+            if (Input::hasFile('url_facade'))
+            {
+		$image = Image::make( Input::file('url_facade')->getRealPath() );
+		$image->save( 'img/facades/'.md5(Input::file('url_facade')->getClientOriginalName().date('Y-m-d H:i:s')).'.'.Input::file('url_facade')->getClientOriginalExtension()  );
+		$questionary_made->url_facade = asset(str_replace(' ', '%20', 'img/facades/'.md5(Input::file('url_facade')->getClientOriginalName().date('Y-m-d H:i:s')).'.'.Input::file('url_facade')->getClientOriginalExtension()));
+            }
+            $questionary_made->save();
+            
             $questions = Question::
-                    where('questionary_id', '=', $survey_id)
-                    ->get();
-            
-            $qm = new QuestionaryMade;
-            
-            $qm->questionary_id = Input::get('id');
-            $qm->date = Input::get('date');
-            $qm->actitude = Input::get('actitude');
-            $qm->incomming = Input::get('incomming');
-            $qm->estimated_age = Input::get('estimated_age');
-            $qm->latitude = Input::get('latitude');
-            $qm->longitude = Input::get('longitude');
-            $qm->url_facade = Input::get('url_facade');
-            
-            $qm->save();
-            
-            $questions = Question::
-                    where('questionary_id', '=', $id_questionary)
+                    where('questionary_id', '=', Input::get('id'))
                     ->get();
             $answers = array();
+            $lastid = 0;
             foreach($questions as $question){
                 $answers[$question->id] = Answer::
                     where('question_id', '=', $question->id)
                     ->get();
+                $lastid = $question->id;
             }
-            return View::make('admin.surveys.form_made')
+            
+            return View::make('admin.surveys.form_made_answers')
                     ->with('section', 'Crear Encuestas')
                     ->with('questions', $questions)
-                    ->with('id_questionary', $id_questionary)
+                    ->with('id_questionary', Input::get('id'))
+                    ->with('questionary_made_id', $questionary_made->id)
                     ->with('answers', $answers)
                     ->with('action', 'save-create-made-answers');
         }
-                
         
 	public function save_create_made_answers()
 	{
-//
-//		$validator = Validator::make(
-//                    Input::all(),
-//                    array(
-//                        'name' => 'required',
-//                        'patern_name' => 'required',
-//                        'matern_name' => 'required',
-//                        'email' => 'required|email|unique:users',
-//                        'password' => 'required|confirmed',
-//                        'user_type' => 'required'
-//                    )
-//		);
-//
-//		if($validator->fails())
-//		{
-//                    return Redirect::to('/surveys/new_survey')->withInput()->withErrors($validator);
-//		}
+            $questionary_id = Input::get('id');
+            $questions = Question::
+                where('questionary_id', '=', $questionary_id)
+                ->get();
+            $answers_radio = Input::get('answers_radio');
+            foreach($questions as $question){
+                $qma = new QuestionaryMadeAnswers;
 
-                $survey_id = Input::get('id');
-                $questions = Question::
-                    where('questionary_id', '=', $survey_id)
-                    ->get();
-                $answers_radio = Input::get('answers_radio');
-                foreach($questions as $question){
-                    $qma = new QuestionaryMadeAnswers;
-                    
-                    //$qma->questionary_made_id = Input::get('questionary_made_id');
-                    $qma->questionary_made_id = 1;
-                    $qma->answer_id = $answers_radio[$question->id];
-                    $qma->answer = "";
-                    $qma->which = "";
-                    $qma->question_id = $question->id;
-                    $qma->save();
-                }
-
-		return Redirect::to('/admin/surveys/'.$survey_id)->with('message', array(
+                $qma->questionary_made_id = Input::get('questionary_made_id');
+                $qma->answer_id = $answers_radio[$question->id];
+                $qma->answer = "";
+                $qma->which = "";
+                $qma->question_id = $question->id;
+                $qma->save();
+            }
+            if(Input::get('form_respondent')==2){
+                // Don't show respondents questionary
+                return Redirect::to('/admin/surveys/'.$questionary_id)->with('message', array(
                     'type' => 'success',
                     'message' => 'Encuesta creada.'
-		));
+                ));
+            }
+            
+            // Show respondents questionary
+            return View::make('admin.surveys.form_respondents')
+                    ->with('section', 'Crear Encuestas')
+                    ->with('id_questionary', $questionary_id)
+                    ->with('questionary_made_id', Input::get('questionary_made_id'))
+                    ->with('action', 'save-create-respondents');
 	}
+        
+        public function save_create_respondents(){
+            
+            $questionary_id = Input::get('id');
+            
+            $respondent = new Respondent;
+
+            $respondent->name = Input::get('name');
+            $respondent->patern_name = Input::get('patern_name');
+            $respondent->matern_name = Input::get('matern_name');
+            $respondent->birth_date = Input::get('birth_date');
+            $respondent->sex = Input::get('sex');
+            $respondent->phone = Input::get('phone');
+            $respondent->cellphone = Input::get('cellphone');
+            $respondent->state = Input::get('state');
+            $respondent->district = Input::get('district');
+            $respondent->township = Input::get('township');
+            $respondent->section = Input::get('section');
+            $respondent->cologne = Input::get('cologne');
+            $respondent->save();
+            
+            return Redirect::to('/admin/surveys/'.$questionary_id)->with('message', array(
+                'type' => 'success',
+                'message' => 'Encuesta Capturada.'
+            ));
+        }
 
 	public function update($id)
 	{

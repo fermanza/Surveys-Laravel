@@ -2,7 +2,7 @@
 
 @section('content')
 
-	{{link_to('/admin/surveys/create', 'Agregar', array('class' => 'btn btn-primary pull-right'))}}
+	<!--{{link_to('/admin/surveys/create', 'Agregar', array('class' => 'btn btn-primary pull-right'))}}-->
 	<div class="clearfix"></div>
 
 	<table class="table">
@@ -20,7 +20,7 @@
 				<td>{{$project->goal}}</td>
 				<td>
                                     {{link_to('/admin/questionaries/'.$project->id, 'Ver Cuestionarios', array('class' => 'btn btn-info'))}}
-                                    {{link_to('/admin/surveys/update/'.$project->id, 'Modificar', array('class' => 'btn btn-primary'))}}
+                                    <!--{{link_to('/admin/surveys/update/'.$project->id, 'Modificar', array('class' => 'btn btn-primary'))}}-->
 <!--                                    {{link_to('/admin/surveys/delete/'.$project->id, 'Eliminar', array('class' => 'btn btn-danger'))}}-->
 				</td>
 			</tr>

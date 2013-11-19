@@ -26,10 +26,14 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li>
+                                            <?php if(Auth::user()->user_type==1){ ?>
 						{{link_to('admin/users', 'Usuarios')}}
+                                            <?php } ?>
 					</li>
 					<li>
+                                            <?php if(Auth::user()->user_type==1 || Auth::user()->user_type==3){ ?>
 						{{link_to('admin/projects', 'Proyectos')}}
+                                            <?php } ?>
 					</li>
 					<!-- <li><a href="#">Link</a></li>
 					<li class="dropdown">

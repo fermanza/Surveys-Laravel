@@ -8,7 +8,7 @@
     window.onload = function() {
         new JsDatePick({
             useMode: 2,
-            target: "inputField",
+            target: "date",
             dateFormat: "%Y/%m/%d"
                     /*selectedDate:{                                                           This is an example of what the full configuration offers.
                      day:5,                                                                                  For full documentation about these settings please see the full version of the code.
@@ -30,7 +30,7 @@
 
 </script>
 
-    {{Form::open( array('url' => '/admin/surveys/'.$action, 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal' ) )}}
+    {{Form::open( array('url' => '/admin/surveys/'.$action, 'files' => true, 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal' ) )}}
     {{Form::hidden('id', $id_questionary)}}
     <fieldset>
         <legend>Nueva Encuesta</legend>
@@ -38,7 +38,7 @@
         <div class="form-group {{($errors->has('date') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Fecha</label>
             <div class="col-sm-6">
-                <input type="text" size="48" id="inputField" name="inputField" onclick="" class="form-control" />
+                <input type="text" size="48" id="date" name="date" onclick="" class="form-control" />
                 @if($errors->has('date'))
                     <span class="help-block">{{$errors->first('date')}}</span>
                 @endif
@@ -48,30 +48,42 @@
         <div class="form-group {{($errors->has('actitude') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Actitud</label>
             <div class="col-sm-6">
-                {{Form::text('actitude', $value = null, array('class' => 'form-control') )}}
-                @if($errors->has('actitude'))
-                    <span class="help-block">{{$errors->first('actitude')}}</span>
-                @endif
+                <select name="actitude" id="actitude" class="form-control">
+                    @foreach( $actitudes as $act )
+                        <option value="{{$act->value}}" @if($act->value == $actitude) selected='selected' @endif >{{$act->name}}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
         
         <div class="form-group {{($errors->has('incomming') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Ingreso</label>
             <div class="col-sm-6">
-                {{Form::text('incomming', $value = null, array('class' => 'form-control') )}}
-                @if($errors->has('incomming'))
-                    <span class="help-block">{{$errors->first('incomming')}}</span>
-                @endif
+                <select name="incomming" id="incomming" class="form-control">
+                <?php for( $i = 1; $i <= 10; $i++ ) { ?>
+                    <option value="{{$i}}">{{$i}}</option>
+                <?php } ?>
+                </select>
             </div>
         </div>
         
         <div class="form-group {{($errors->has('estimated_age') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Edad Estimada</label>
             <div class="col-sm-6">
-                {{Form::text('estimated_age', $value = null, array('class' => 'form-control') )}}
-                @if($errors->has('estimated_age'))
-                    <span class="help-block">{{$errors->first('estimated_age')}}</span>
-                @endif
+                <select name="estimated_age" id="estimated_age" class="form-control">
+                    <option value="1">18 - 25</option>
+                    <option value="2">26 - 30</option>
+                    <option value="3">31 - 35</option>
+                    <option value="4">36 - 40</option>
+                    <option value="5">41 - 45</option>
+                    <option value="6">46 - 50</option>
+                    <option value="7">51 - 55</option>
+                    <option value="8">56 - 60</option>
+                    <option value="9">66 - 70</option>
+                    <option value="10">76 - 80</option>
+                    <option value="11">86 - 90</option>
+                    <option value="12">> 90</option>
+                </select>
             </div>
         </div>
         

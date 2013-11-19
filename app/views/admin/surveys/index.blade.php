@@ -2,7 +2,7 @@
 
 @section('content')
 
-	{{link_to('/admin/surveys/new_survey/'.$id_questionary, 'Crear Encuesta', array('class' => 'btn btn-primary pull-right'))}}
+	{{link_to('/admin/surveys/new_survey/'.$id_questionary, 'Capturar Encuesta', array('class' => 'btn btn-primary pull-right'))}}
 	<div class="clearfix"></div>
 
 	<table class="table">
