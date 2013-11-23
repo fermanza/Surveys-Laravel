@@ -2,7 +2,7 @@
 @section('content')
 
 <link rel="stylesheet" href="{{asset('css/jsDatePick_ltr.min.css')}}">
-<link rel="stylesheet" href="{{asset('js/jquery.js')}}">
+<script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/jsDatePick.min.1.3.js')}}"></script>
 <script type="text/javascript">
     window.onload = function() {
@@ -25,7 +25,7 @@
     };
     
     function cancel () {
-        window.location.href="{{ URL::to('admin/surveys/'.$id_questionary) }}"
+        window.location.href="{{ URL::to('admin/surveys/'.$id_questionary) }}";
     }
 
 </script>

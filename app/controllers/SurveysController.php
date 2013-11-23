@@ -31,11 +31,18 @@ class SurveysController extends BaseController
             array_push($actitudes, $act);
             $actitude = 1;
             
+            $country_id = Auth::user()->country_id;
+            
+            $country = Country::find($country_id);
+            $states = State::find($country_id)->get();
+            
             return View::make('admin.surveys.form_made')
                     ->with('section', 'Crear Encuestas')
                     ->with('id_questionary', $id_questionary)
                     ->with('actitudes', $actitudes)
                     ->with('actitude', $actitude)
+                    ->with('country', $country)
+                    ->with('states', $states)
                     ->with('action', 'save-create-made');
 	}
 
@@ -137,6 +144,44 @@ class SurveysController extends BaseController
                 'message' => 'Encuesta Capturada.'
             ));
         }
+        
+        public function get_district(){
+            
+            $country_id = Auth::user()->country_id;
+            $state_id = Input::get('state_id');
+            
+            $districts = District::
+                    where('country_id', '=', $country_id)
+                    ->where('state_id', '=', $state_id)
+                    ->get();
+            
+            $districts_array = array();
+            foreach($districts as $district){
+                $districts_tmp = array("id"=>$district->id, "name"=>$district->name);
+                array_push($districts_array, $districts_tmp);
+            }
+//            $html = View::make('admin.surveys.districts')
+//                    ->with('districts', $districts_array)
+//                    ->render();
+//            return "ASDf";
+            return json_encode($districts_array);
+        }
+        
+        public function get_township(){
+            
+            $country_id = Auth::user()->country_id;
+            $state_id = Input::get('state_id');
+            $states = District::
+                    where('country_id', '=', $country_id)
+                    ->and('state_id', '=', $state_id)
+                    ->get();
+            
+            return View::make('admin.surveys.form_respondents')
+                    ->with('section', 'Crear Encuestas')
+                    ->with('id_questionary', $questionary_id)
+                    ->with('questionary_made_id', Input::get('questionary_made_id'))
+                    ->with('action', 'save-create-respondents');
+        }
 
 	public function update($id)
 	{
@@ -185,7 +230,7 @@ class SurveysController extends BaseController
 			'message' => 'Usuario modificado.'
 		));
 	}
-
+        
 	public function details($id)
 	{
             $users = User::find($id);

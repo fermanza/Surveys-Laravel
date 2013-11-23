@@ -2,8 +2,9 @@
 @section('content')
 
 <link rel="stylesheet" href="{{asset('css/jsDatePick_ltr.min.css')}}">
-<link rel="stylesheet" href="{{asset('js/jquery.js')}}">
+<script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/jsDatePick.min.1.3.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/utils.js')}}"></script>
 <script type="text/javascript">
     window.onload = function() {
         new JsDatePick({
@@ -24,21 +25,81 @@
         });
     };
     
+    function getDistricts() {
+        
+        var state_id = $('#state').val();
+        var tmp = {
+            state_id: state_id,
+        };
+        $.post("{{ URL::to('admin/surveys/get_district') }}", tmp, function(result){
+            
+        });
+    }
+    
+    function getTownships() {
+        
+        var state_id = $('#state').val();
+        var tmp = {
+            state_id: state_id
+        };
+        $.post("{{ URL::to('admin/surveys/get_township') }}", tmp, function(result){
+            alert("Vlady");
+//            var district_select = "<select name=district id='district' class='form-control' onChange='getTownships();'>";
+//              $.each(result, function(n, val) {
+//                    district_select += "<option value='val.id'>val.name</option>";
+//                    alert("n: " + n + " val.id " + val.id + " val.name " + val.name);
+//              });
+//              district_select += "</select>";
+//              document.getElementById('district').innerHTML=district_select;
+//              $('#district').is(':enabled');
+//              
+//              alert(district_select);
+        });
+    }
+    
     function cancel () {
-        window.location.href="{{ URL::to('admin/surveys/'.$id_questionary) }}"
+        window.location.href="{{ URL::to('admin/surveys/'.$id_questionary) }}";
     }
 
 </script>
+    
 
     {{Form::open( array('url' => '/admin/surveys/'.$action, 'files' => true, 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal' ) )}}
     {{Form::hidden('id', $id_questionary)}}
     <fieldset>
         <legend>Nueva Encuesta</legend>
+        
+        <div class="form-group {{($errors->has('date') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">País</label>
+            <div class="col-sm-6">
+                <input type="text" size="48" id="country" name="country" 
+                       class="form-control" value="{{ $country->name }}" disabled />
+            </div>
+        </div>
+        
+        <div class="form-group {{($errors->has('state') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Estado</label>
+            <div class="col-sm-6">
+                <select name="state" id="state" class="form-control" onChange="getDistricts();">
+                    @foreach( $states as $state )
+                        <option value="{{$state->id}}">{{$state->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group {{($errors->has('district') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Distritos</label>
+            <div class="col-sm-6" name="district_container" id="district_container">
+                <select name="district" id="district" class="form-control" onChange="getTownships();" disabled>
+                </select>
+            </div>
+        </div>
 
         <div class="form-group {{($errors->has('date') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Fecha</label>
             <div class="col-sm-6">
-                <input type="text" size="48" id="date" name="date" onclick="" class="form-control" />
+                <input type="text" size="48" id="date" name="date" class="form-control" />
                 @if($errors->has('date'))
                     <span class="help-block">{{$errors->first('date')}}</span>
                 @endif
