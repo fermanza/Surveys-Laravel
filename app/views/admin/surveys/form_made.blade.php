@@ -37,12 +37,15 @@
         }
         $.post("{{ URL::to('admin/surveys/get_district') }}", { state_id: state_id }, function(result){
             var district_select = "<select name=district id='district' class='form-control' onChange='getTownships();'>";
-                district_select += "<option value='0'>- Seleccione un Distrito -</option>";
-              $.each(result, function(key, value) {
-                    district_select += "<option value='"+value.id+"'>"+value.name+"</option>";
-              });
-              district_select += "</select>";
-              document.getElementById('district_container').innerHTML=district_select;
+            district_select += "<option value='0'>- Seleccione un Distrito -</option>";
+            $.each(result, function(key, value) {
+            district_select += "<option value='"+value.id+"'>"+value.name+"</option>";
+            });
+            district_select += "</select>";
+            document.getElementById('district_container').innerHTML=district_select;
+            
+            var township_select = '<select name="district" id="district" class="form-control" onChange="getColognes();" disabled></select>';
+            document.getElementById('township_container').innerHTML=township_select;
         });
     }
     
@@ -64,14 +67,18 @@
         }
         
         $.post("{{ URL::to('admin/surveys/get_township') }}", 
-            { state_id: state_id, district_id: district_id }, function(result){
+                { state_id: state_id, district_id: district_id }, function(result){
             var township_select = "<select name=township id='township' class='form-control' onChange='getColognes();'>";
-              $.each(result, function(key, value) {
-                    township_select += "<option value='"+value.id+"'>"+value.name+"</option>";
-              });
-              township_select += "</select>";
-              document.getElementById('township_container').innerHTML=township_select;
+            $.each(result, function(key, value) {
+                township_select += "<option value='"+value.id+"'>"+value.name+"</option>";
+            });
+            township_select += "</select>";
+            document.getElementById('township_container').innerHTML=township_select;
         });
+    }
+    
+    function getColognes() {
+        
     }
     
     function cancel () {
