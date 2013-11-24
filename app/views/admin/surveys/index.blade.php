@@ -9,7 +9,6 @@
 		<thead>
 			<th>N&uacute;mero</th>
 			<th>Pregunta</th>
-			<!--<th>Opcions</th>-->
 			<th></th>
 		</thead>
 		<tbody>
@@ -18,12 +17,6 @@
 			<tr>
 				<td>{{ $i }}</td>
 				<td>{{$question->question}}</td>
-<!--                                <td>{{$question->type}}</td>-->
-				<td>
-<!--                                    {{link_to('/admin/surveys/details/'.$question->id, 'Ver', array('class' => 'btn btn-info'))}}-->
-<!--                                    {{link_to('/admin/surveys/view-surveys/'.$question->id, 'Ver Encuestas', array('class' => 'btn btn-primary'))}}-->
-<!--                                    {{link_to('/admin/surveys/delete/'.$question->id, 'Eliminar', array('class' => 'btn btn-danger'))}}-->
-				</td>
 			</tr>
                         <?php $i++ ?>
 			@endforeach
