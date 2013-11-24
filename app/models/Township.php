@@ -1,6 +1,6 @@
 <?php
-class District extends Eloquent
+class Township extends Eloquent
 {
-        protected $table = 'district';
+        protected $table = 'township';
 	public $timestamps = false;
 }

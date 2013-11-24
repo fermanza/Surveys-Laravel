@@ -11,49 +11,66 @@
             useMode: 2,
             target: "date",
             dateFormat: "%Y/%m/%d"
-                    /*selectedDate:{                                                           This is an example of what the full configuration offers.
-                     day:5,                                                                                  For full documentation about these settings please see the full version of the code.
-                     month:9,
-                     year:2006
-                     },
-                     yearsRange:[1978,2020],
-                     limitToToday:false,
-                     cellColorScheme:"beige",
-                     dateFormat:"%m-%d-%Y",
-                     imgPath:"img/",
-                     weekStartDay:1*/
+            /*selectedDate:{   This is an example of what the full configuration offers.
+             day:5,        For full documentation about these settings please see the full version of the code.
+             month:9,
+             year:2006
+             },
+             yearsRange:[1978,2020],
+             limitToToday:false,
+             cellColorScheme:"beige",
+             dateFormat:"%m-%d-%Y",
+             imgPath:"img/",
+             weekStartDay:1*/
         });
     };
     
     function getDistricts() {
         
         var state_id = $('#state').val();
-        var tmp = {
-            state_id: state_id,
-        };
-        $.post("{{ URL::to('admin/surveys/get_district') }}", tmp, function(result){
-            
+        if( state_id == 0 ){
+            var district_select = '<select name="state" id="state" class="form-control" onChange="getTownships();" disabled></select>';
+            document.getElementById('district_container').innerHTML=district_select;
+            var township_select = '<select name="district" id="district" class="form-control" onChange="getColognes();" disabled></select>';
+            document.getElementById('township_container').innerHTML=township_select;
+            return;
+        }
+        $.post("{{ URL::to('admin/surveys/get_district') }}", { state_id: state_id }, function(result){
+            var district_select = "<select name=district id='district' class='form-control' onChange='getTownships();'>";
+                district_select += "<option value='0'>- Seleccione un Distrito -</option>";
+              $.each(result, function(key, value) {
+                    district_select += "<option value='"+value.id+"'>"+value.name+"</option>";
+              });
+              district_select += "</select>";
+              document.getElementById('district_container').innerHTML=district_select;
         });
     }
     
     function getTownships() {
         
         var state_id = $('#state').val();
-        var tmp = {
-            state_id: state_id
-        };
-        $.post("{{ URL::to('admin/surveys/get_township') }}", tmp, function(result){
-            alert("Vlady");
-//            var district_select = "<select name=district id='district' class='form-control' onChange='getTownships();'>";
-//              $.each(result, function(n, val) {
-//                    district_select += "<option value='val.id'>val.name</option>";
-//                    alert("n: " + n + " val.id " + val.id + " val.name " + val.name);
-//              });
-//              district_select += "</select>";
-//              document.getElementById('district').innerHTML=district_select;
-//              $('#district').is(':enabled');
-//              
-//              alert(district_select);
+        var district_id = $('#district').val();
+        if( state_id == 0 ){
+            var district_select = '<select name="state" id="state" class="form-control" onChange="getTownships();" disabled></select>';
+            document.getElementById('district_container').innerHTML=district_select;
+            var township_select = '<select name="district" id="district" class="form-control" onChange="getColognes();" disabled></select>';
+            document.getElementById('township_container').innerHTML=township_select;
+            return;
+        }
+        if( district_id == 0 ){
+            var township_select = '<select name="district" id="district" class="form-control" onChange="getColognes();" disabled></select>';
+            document.getElementById('township_container').innerHTML=township_select;
+            return;
+        }
+        
+        $.post("{{ URL::to('admin/surveys/get_township') }}", 
+            { state_id: state_id, district_id: district_id }, function(result){
+            var township_select = "<select name=township id='township' class='form-control' onChange='getColognes();'>";
+              $.each(result, function(key, value) {
+                    township_select += "<option value='"+value.id+"'>"+value.name+"</option>";
+              });
+              township_select += "</select>";
+              document.getElementById('township_container').innerHTML=township_select;
         });
     }
     
@@ -81,6 +98,7 @@
             <label for="" class="col-sm-2 control-label">Estado</label>
             <div class="col-sm-6">
                 <select name="state" id="state" class="form-control" onChange="getDistricts();">
+                <option value='0'>- Seleccione un Estado -</option>
                     @foreach( $states as $state )
                         <option value="{{$state->id}}">{{$state->name}}</option>
                     @endforeach
@@ -92,6 +110,14 @@
             <label for="" class="col-sm-2 control-label">Distritos</label>
             <div class="col-sm-6" name="district_container" id="district_container">
                 <select name="district" id="district" class="form-control" onChange="getTownships();" disabled>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group {{($errors->has('township') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Ciudades</label>
+            <div class="col-sm-6" name="township_container" id="township_container">
+                <select name="township" id="township" class="form-control" onChange="getColognes();" disabled>
                 </select>
             </div>
         </div>

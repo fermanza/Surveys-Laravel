@@ -160,27 +160,26 @@ class SurveysController extends BaseController
                 $districts_tmp = array("id"=>$district->id, "name"=>$district->name);
                 array_push($districts_array, $districts_tmp);
             }
-//            $html = View::make('admin.surveys.districts')
-//                    ->with('districts', $districts_array)
-//                    ->render();
-//            return "ASDf";
-            return json_encode($districts_array);
+            return $districts_array;
         }
         
         public function get_township(){
             
             $country_id = Auth::user()->country_id;
             $state_id = Input::get('state_id');
-            $states = District::
+            $district_id = Input::get('district_id');
+            $townships = Township::
                     where('country_id', '=', $country_id)
-                    ->and('state_id', '=', $state_id)
+                    ->where('state_id', '=', $state_id)
+                    ->where('district_id', '=', $district_id)
                     ->get();
             
-            return View::make('admin.surveys.form_respondents')
-                    ->with('section', 'Crear Encuestas')
-                    ->with('id_questionary', $questionary_id)
-                    ->with('questionary_made_id', Input::get('questionary_made_id'))
-                    ->with('action', 'save-create-respondents');
+            $townships_array = array();
+            foreach($townships as $township){
+                $townships_tmp = array("id"=>$township->id, "name"=>$township->name);
+                array_push($townships_array, $townships_tmp);
+            }
+            return $townships_array;
         }
 
 	public function update($id)
