@@ -50,6 +50,13 @@ class SurveysController extends BaseController
         {
             $questionary_made = new QuestionaryMade();
             $questionary_made->questionary_id = Input::get('id');
+            
+            $questionary_made->country_id = Auth::user()->country_id;
+            $questionary_made->state_id = Input::get('state');
+            $questionary_made->district_id = Input::get('district');
+            $questionary_made->township_id = Input::get('township');
+            $questionary_made->suburb_id = Input::get('suburb');
+            
             $questionary_made->date = Input::get('date');
             $questionary_made->actitude = Input::get('actitude');
             $questionary_made->incomming = Input::get('incomming');
@@ -180,6 +187,27 @@ class SurveysController extends BaseController
                 array_push($townships_array, $townships_tmp);
             }
             return $townships_array;
+        }
+        
+        public function get_suburbs(){
+            
+            $country_id = Auth::user()->country_id;
+            $state_id = Input::get('state_id');
+            $district_id = Input::get('district_id');
+            $township_id = Input::get('township_id');
+            $suburbs = Suburb::
+                    where('country_id', '=', $country_id)
+                    ->where('state_id', '=', $state_id)
+                    ->where('district_id', '=', $district_id)
+                    ->where('township_id', '=', $township_id)
+                    ->get();
+            
+            $suburb_array = array();
+            foreach($suburbs as $suburb){
+                $suburb_tmp = array("id"=>$suburb->id, "name"=>$suburb->name);
+                array_push($suburb_array, $suburb_tmp);
+            }
+            return $suburb_array;
         }
 
 	public function update($id)

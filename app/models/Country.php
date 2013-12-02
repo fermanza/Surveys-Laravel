@@ -1,6 +1,6 @@
 <?php
 class Country extends Eloquent
 {
-        protected $table = 'countrys';
+        protected $table = 'country';
 	public $timestamps = false;
 }

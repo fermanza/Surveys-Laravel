@@ -31,8 +31,10 @@
         if( state_id == 0 ){
             var district_select = '<select name="state" id="state" class="form-control" onChange="getTownships();" disabled></select>';
             document.getElementById('district_container').innerHTML=district_select;
-            var township_select = '<select name="district" id="district" class="form-control" onChange="getColognes();" disabled></select>';
+            var township_select = '<select name="district" id="district" class="form-control" onChange="getSuburbs();" disabled></select>';
             document.getElementById('township_container').innerHTML=township_select;
+            var suburb_select = '<select name="suburb" id="suburb" class="form-control" disabled></select>';
+            document.getElementById('suburb_container').innerHTML=suburb_select;
             return;
         }
         $.post("{{ URL::to('admin/surveys/get_district') }}", { state_id: state_id }, function(result){
@@ -44,8 +46,10 @@
             district_select += "</select>";
             document.getElementById('district_container').innerHTML=district_select;
             
-            var township_select = '<select name="district" id="district" class="form-control" onChange="getColognes();" disabled></select>';
+            var township_select = '<select name="township" id="township" class="form-control" onChange="getSuburbs();" disabled></select>';
             document.getElementById('township_container').innerHTML=township_select;
+            var suburb_select = '<select name="suburb" id="suburb" class="form-control" disabled></select>';
+            document.getElementById('suburb_container').innerHTML=suburb_select;
         });
     }
     
@@ -56,29 +60,72 @@
         if( state_id == 0 ){
             var district_select = '<select name="state" id="state" class="form-control" onChange="getTownships();" disabled></select>';
             document.getElementById('district_container').innerHTML=district_select;
-            var township_select = '<select name="district" id="district" class="form-control" onChange="getColognes();" disabled></select>';
+            var township_select = '<select name="district" id="district" class="form-control" onChange="getSuburbs();" disabled></select>';
             document.getElementById('township_container').innerHTML=township_select;
+            var suburb_select = '<select name="suburb" id="suburb" class="form-control" disabled></select>';
+            document.getElementById('suburb_container').innerHTML=suburb_select;
             return;
         }
         if( district_id == 0 ){
-            var township_select = '<select name="district" id="district" class="form-control" onChange="getColognes();" disabled></select>';
+            var township_select = '<select name="district" id="district" class="form-control" onChange="getSuburbs();" disabled></select>';
             document.getElementById('township_container').innerHTML=township_select;
+            var suburb_select = '<select name="suburb" id="suburb" class="form-control" disabled></select>';
+            document.getElementById('suburb_container').innerHTML=suburb_select;
             return;
         }
         
         $.post("{{ URL::to('admin/surveys/get_township') }}", 
                 { state_id: state_id, district_id: district_id }, function(result){
-            var township_select = "<select name=township id='township' class='form-control' onChange='getColognes();'>";
+            var township_select = "<select name=township id='township' class='form-control' onChange='getSuburbs();'>";
+            township_select += "<option value='0'>- Seleccione una Ciudad -</option>";
             $.each(result, function(key, value) {
                 township_select += "<option value='"+value.id+"'>"+value.name+"</option>";
             });
             township_select += "</select>";
             document.getElementById('township_container').innerHTML=township_select;
+            
+            var suburb_select = '<select name="suburb" id="suburb" class="form-control" disabled></select>';
+            document.getElementById('suburb_container').innerHTML=suburb_select;
         });
     }
     
-    function getColognes() {
+    function getSuburbs() {
         
+        var state_id = $('#state').val();
+        var district_id = $('#district').val();
+        var township_id = $('#township').val();
+        if( state_id == 0 ){
+            var district_select = '<select name="state" id="state" class="form-control" onChange="getTownships();" disabled></select>';
+            document.getElementById('district_container').innerHTML=district_select;
+            var township_select = '<select name="district" id="district" class="form-control" onChange="getSuburbs();" disabled></select>';
+            document.getElementById('township_container').innerHTML=township_select;
+            var suburb_select = '<select name="suburb" id="suburb" class="form-control" disabled></select>';
+            document.getElementById('suburb_container').innerHTML=suburb_select;
+            return;
+        }
+        if( district_id == 0 ){
+            var township_select = '<select name="district" id="district" class="form-control" onChange="getSuburbs();" disabled></select>';
+            document.getElementById('township_container').innerHTML=township_select;
+            var suburb_select = '<select name="suburb" id="suburb" class="form-control" disabled></select>';
+            document.getElementById('suburb_container').innerHTML=suburb_select;
+            return;
+        }
+        if( township_id == 0 ){
+            var suburb_select = '<select name="suburb" id="suburb" class="form-control"disabled></select>';
+            document.getElementById('suburb_container').innerHTML=suburb_select;
+            return;
+        }
+        
+        $.post("{{ URL::to('admin/surveys/get_suburbs') }}", 
+                { state_id: state_id, district_id: district_id, township_id: township_id }, function(result){
+            var suburb_select = "<select name='suburb' id='suburb' class='form-control'>";
+            suburb_select += "<option value='0'>- Seleccione una Colonia -</option>";
+            $.each(result, function(key, value) {
+                suburb_select += "<option value='"+value.id+"'>"+value.name+"</option>";
+            });
+            suburb_select += "</select>";
+            document.getElementById('suburb_container').innerHTML=suburb_select;
+        });
     }
     
     function cancel () {
@@ -125,6 +172,14 @@
             <label for="" class="col-sm-2 control-label">Ciudades</label>
             <div class="col-sm-6" name="township_container" id="township_container">
                 <select name="township" id="township" class="form-control" onChange="getColognes();" disabled>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group {{($errors->has('suburb') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Colonias</label>
+            <div class="col-sm-6" name="suburb_container" id="suburb_container">
+                <select name="suburb" id="suburb" class="form-control" disabled>
                 </select>
             </div>
         </div>

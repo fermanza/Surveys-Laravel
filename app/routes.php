@@ -58,6 +58,7 @@ Route::get('/admin/surveys/{num}', array('before' => 'auth', 'uses' => 'SurveysC
 Route::get('/admin/surveys/new_survey/{num}', array('before' => 'auth', 'uses' => 'SurveysController@new_survey'));
 Route::post('/admin/surveys/get_district', array('before' => 'auth', 'uses' => 'SurveysController@get_district'));
 Route::post('/admin/surveys/get_township', array('before' => 'auth', 'uses' => 'SurveysController@get_township'));
+Route::post('/admin/surveys/get_suburbs', array('before' => 'auth', 'uses' => 'SurveysController@get_suburbs'));
 Route::post('/admin/surveys/save-create-made', array('before' => 'auth', 'uses' => 'SurveysController@save_create_made'));
 Route::post('/admin/surveys/save-create-made-answers', array('before' => 'auth', 'uses' => 'SurveysController@save_create_made_answers'));
 Route::post('/admin/surveys/save-create-respondents', array('before' => 'auth', 'uses' => 'SurveysController@save_create_respondents'));
