@@ -1,4 +1,20 @@
 @extends('admin.layout.master')
+
+@section('scripts')
+
+    <script>
+        jQuery(document).ready(function($) {
+            $('input[type=checkbox]').click(function(){
+                if($('input[type=checkbox]:checked').size() > 2)
+                {
+                    return false;
+                }
+            });
+        });
+    </script>
+
+@endsection
+
 @section('content')
 
     {{Form::open( array('url' => '/admin/surveys/'.$action, 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal' ) )}}
@@ -22,12 +38,21 @@
                 <tr>
                     <td></td>
                     <td>
+                        @if($question->type == 3)
+                        <div class="col-sm-6">
+                            @foreach($answers[$question->id] as $answer)
+                                <input type="checkbox" name="answers_checkbox[{{ $question->id }}][]"
+                                       value="{{ $answer->id }}">&nbsp;{{ $answer->answer }}<br />
+                            @endforeach
+                        </div>
+                        @else
                         <div class="col-sm-6">
                             @foreach($answers[$question->id] as $answer)
                                 <input type="radio" name="answers_radio[{{ $question->id }}]"
                                        value="{{ $answer->id }}">&nbsp;{{ $answer->answer }}<br />
                             @endforeach
-                        </div>
+                        </div>                        
+                        @endif
                     </td>
                 </tr>
             <?php $i++ ?>
