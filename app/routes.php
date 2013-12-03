@@ -261,6 +261,123 @@ Route::post('/ws-content/json/ws-send', function(){
 
 });
 
+Route::post('/ws-content/json/ws-where', function(){
+
+	$data = Input::get('data');
+
+	$data_decoded = json_decode($data);
+
+	$country = Country::find($data_decoded->id_country);
+
+	$data_array = array();
+
+	foreach($country->states as $state):
+		$state_districts = array();
+
+		foreach($state->districts as $district):
+			$district_towns = array();
+
+			foreach($district->townships as $township):
+				$township_suburbs = array();
+
+				foreach($township->suburbs as $suburb):
+					$cologne = array(
+						'id' => $suburb->id,
+						'name' => $suburb->name,
+						'id_country' => $suburb->country_id,
+						'id_state' => $suburb->state_id,
+						'id_district' => $suburb->district_id,
+						'id_town' => $suburb->township_id
+					);
+
+					array_push($township_suburbs, $cologne);
+				endforeach;
+
+				$town = array(
+					'id' => $township->id,
+					'name' => $township->name,
+					'id_country' => $township->country_id,
+					'id_state' => $township->state_id,
+					'cologne' => $township_suburbs
+				);
+
+				array_push($district_towns, $town);
+			endforeach;
+
+			array_push($state_districts, array(
+				'id' => $district->id,
+				'name' => $district->name,
+				'id_country' => $district->country_id,
+				'id_state' => $district->state_id,
+				'town' => $district_towns
+			));
+
+		endforeach;
+
+		$state_array = array(
+			'id' => $state->id,
+			'name' => $state->name,
+			'id_country' => $state->country_id,
+			'district' => $state_districts
+		);
+
+		array_push($data_array, $state_array);
+	endforeach;
+
+	return $data_array;
+
+});
+
+Route::post('/ws-content/json/ws-cologne', function(){
+
+	$data = Input::get('data');
+
+	$data_decoded = json_decode($data);
+
+	$suburbs = Suburb::where('country_id', '=', $data_decoded->id_country)->get();
+
+	$suburbs_array = array();
+
+	foreach($suburbs as $suburb):
+		array_push($suburbs_array, array(
+			'id' => $suburb->id,
+			'name' => $suburb->name,
+			'id_country' => $suburb->country_id,
+			'id_state' => $suburb->state_id,
+			'id_district' => $suburb->district_id,
+			'id_town' => $suburb->township_id
+		));
+	endforeach;
+
+	return array(
+		'cologne' => $suburbs_array
+	);
+
+});
+
+Route::post('/ws-content/json/ws-register', function(){
+
+	$data = Input::get('data');
+
+	$data_decoded = json_decode($data);
+
+	$suburb = new Suburb;
+
+	$suburb->name = $data_decoded->name;
+	$suburb->country_id = $data_decoded->id_country;
+	$suburb->state_id = $data_decoded->id_state;
+	$suburb->district_id = $data_decoded->id_district;
+	$suburb->township_id = $data_decoded->id_town;
+
+	$suburb->save();
+
+	return array(
+		'code' => 1,
+		'cologne' => $suburb->toArray();
+	);
+
+});
+
 Route::get('/hash', function(){
 	return Hash::make('password123');
 });
