@@ -373,7 +373,7 @@ Route::post('/ws-content/json/ws-register', function(){
 
 	return array(
 		'code' => 1,
-		'cologne' => $suburb->toArray();
+		'cologne' => $suburb->toArray()
 	);
 
 });
