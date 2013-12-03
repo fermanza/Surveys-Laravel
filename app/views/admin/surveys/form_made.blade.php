@@ -6,6 +6,7 @@
 <script type="text/javascript" src="{{asset('js/jsDatePick.min.1.3.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/utils.js')}}"></script>
 <script type="text/javascript">
+
     window.onload = function() {
         new JsDatePick({
             useMode: 2,
@@ -132,6 +133,19 @@
         window.location.href="{{ URL::to('admin/surveys/'.$id_questionary) }}";
     }
 
+    jQuery(document).ready(function($) {
+        $('#new_suburb').click(function(event) {
+            if($(this).is(':checked'))
+            {
+                $('#new-suburb-container').show();
+            }
+            else
+            {
+                $('#new-suburb-container').hide();
+            }
+        });
+    });
+
 </script>
     
 
@@ -181,6 +195,20 @@
             <div class="col-sm-6" name="suburb_container" id="suburb_container">
                 <select name="suburb" id="suburb" class="form-control" disabled>
                 </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">Nueva colonia</label>
+            <div class="col-sm-6">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="new_suburb_check" id="new_suburb" value="1">
+                    </label>
+                </div>
+                <div id="new-suburb-container" style="display:none">
+                    {{Form::text('new_suburb', '', array('placeholder' => 'Nueva colonia...', 'class' => 'form-control'))}}
+                </div>                
             </div>
         </div>
 

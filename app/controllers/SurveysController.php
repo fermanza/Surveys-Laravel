@@ -55,7 +55,26 @@ class SurveysController extends BaseController
             $questionary_made->state_id = Input::get('state');
             $questionary_made->district_id = Input::get('district');
             $questionary_made->township_id = Input::get('township');
-            $questionary_made->suburb_id = Input::get('suburb');
+
+            $new_suburb = Input::get('new_suburb_check');
+            
+            if(!empty($new_suburb))
+            {
+                $suburb = new Suburb;
+
+                $suburb->country_id = $questionary_made->country_id;
+                $suburb->state_id = $questionary_made->state_id;
+                $suburb->district_id = $questionary_made->district_id;
+                $suburb->township_id = $questionary_made->township_id;
+                $suburb->name = Input::get('new_suburb');
+                $suburb->save();
+
+                $questionary_made->suburb_id = $suburb->id;
+            }
+            else 
+            {
+                $questionary_made->suburb_id = Input::get('suburb');                
+            }
             
             $questionary_made->date = Input::get('date');
             $questionary_made->actitude = Input::get('actitude');
@@ -100,15 +119,35 @@ class SurveysController extends BaseController
                 where('questionary_id', '=', $questionary_id)
                 ->get();
             $answers_radio = Input::get('answers_radio');
+            
             foreach($questions as $question){
-                $qma = new QuestionaryMadeAnswers;
 
-                $qma->questionary_made_id = Input::get('questionary_made_id');
-                $qma->answer_id = $answers_radio[$question->id];
-                $qma->answer = "";
-                $qma->which = "";
-                $qma->question_id = $question->id;
-                $qma->save();
+                if($question->type == 3)
+                {
+                    for($i=0; $i<count($_POST['answers_checkbox'][$question->id]); $i++)
+                    {
+                        $qma = new QuestionaryMadeAnswers;
+
+                        $qma->questionary_made_id = Input::get('questionary_made_id');
+                        $qma->answer_id = $_POST['answers_checkbox'][$question->id][$i];
+                        $qma->answer = "";
+                        $qma->which = "";
+                        $qma->question_id = $question->id;
+                        $qma->save();
+                    }
+                }
+                else
+                {
+                    $qma = new QuestionaryMadeAnswers;
+
+                    $qma->questionary_made_id = Input::get('questionary_made_id');
+                    $qma->answer_id = $answers_radio[$question->id];
+                    $qma->answer = "";
+                    $qma->which = "";
+                    $qma->question_id = $question->id;
+                    $qma->save();                    
+                }
+
             }
             if(Input::get('form_respondent')==2){
                 // Don't show respondents questionary
