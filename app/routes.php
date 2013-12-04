@@ -204,6 +204,11 @@ Route::post('/ws-content/json/ws-send', function(){
 	$questionary_made->incomming = $data_decoded->more->incomming;
 	$questionary_made->latitude = $data_decoded->location->latitude;
 	$questionary_made->longitude = $data_decoded->location->longitude;
+	$questionary_made->country_id = $data_decoded->location->country_id;
+	$questionary_made->state_id = $data_decoded->location->id_state;
+	$questionary_made->district_id = $data_decoded->location->id_district;
+	$questionary_made->township_id = $data_decoded->location->id_town;
+	$questionary_made->suburb_id = $data_decoded->location->id_cologne;
 
 	if( !empty($data_decoded->respondent->name) )
 	{
@@ -324,7 +329,10 @@ Route::post('/ws-content/json/ws-where', function(){
 		array_push($data_array, $state_array);
 	endforeach;
 
-	return $data_array;
+	return array(
+		'code' => 1,
+		'states' => $data_array
+	);
 
 });
 
