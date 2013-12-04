@@ -330,7 +330,6 @@ Route::post('/ws-content/json/ws-where', function(){
 	endforeach;
 
 	return array(
-		'code' => 1,
 		'states' => $data_array
 	);
 
