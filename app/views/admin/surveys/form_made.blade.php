@@ -78,7 +78,7 @@
         $.post("{{ URL::to('admin/surveys/get_township') }}", 
                 { state_id: state_id, district_id: district_id }, function(result){
             var township_select = "<select name=township id='township' class='form-control' onChange='getSuburbs();'>";
-            township_select += "<option value='0'>- Seleccione una Ciudad -</option>";
+            township_select += "<option value='0'>- Seleccione un Corregimiento -</option>";
             $.each(result, function(key, value) {
                 township_select += "<option value='"+value.id+"'>"+value.name+"</option>";
             });
@@ -120,7 +120,7 @@
         $.post("{{ URL::to('admin/surveys/get_suburbs') }}", 
                 { state_id: state_id, district_id: district_id, township_id: township_id }, function(result){
             var suburb_select = "<select name='suburb' id='suburb' class='form-control'>";
-            suburb_select += "<option value='0'>- Seleccione una Colonia -</option>";
+            suburb_select += "<option value='0'>- Seleccione un Lugar Poblado -</option>";
             $.each(result, function(key, value) {
                 suburb_select += "<option value='"+value.id+"'>"+value.name+"</option>";
             });
@@ -163,10 +163,10 @@
         </div>
         
         <div class="form-group {{($errors->has('state') ? 'has-error' : '')}} ">
-            <label for="" class="col-sm-2 control-label">Estado</label>
+            <label for="" class="col-sm-2 control-label">Provincia</label>
             <div class="col-sm-6">
                 <select name="state" id="state" class="form-control" onChange="getDistricts();">
-                <option value='0'>- Seleccione un Estado -</option>
+                <option value='0'>- Seleccione una Provincia -</option>
                     @foreach( $states as $state )
                         <option value="{{$state->id}}">{{$state->name}}</option>
                     @endforeach
@@ -175,7 +175,7 @@
         </div>
         
         <div class="form-group {{($errors->has('district') ? 'has-error' : '')}} ">
-            <label for="" class="col-sm-2 control-label">Distritos</label>
+            <label for="" class="col-sm-2 control-label">Distrito</label>
             <div class="col-sm-6" name="district_container" id="district_container">
                 <select name="district" id="district" class="form-control" onChange="getTownships();" disabled>
                 </select>
@@ -183,7 +183,7 @@
         </div>
         
         <div class="form-group {{($errors->has('township') ? 'has-error' : '')}} ">
-            <label for="" class="col-sm-2 control-label">Ciudades</label>
+            <label for="" class="col-sm-2 control-label">Corregimiento</label>
             <div class="col-sm-6" name="township_container" id="township_container">
                 <select name="township" id="township" class="form-control" onChange="getColognes();" disabled>
                 </select>
@@ -191,7 +191,7 @@
         </div>
         
         <div class="form-group {{($errors->has('suburb') ? 'has-error' : '')}} ">
-            <label for="" class="col-sm-2 control-label">Colonias</label>
+            <label for="" class="col-sm-2 control-label">Lugar Poblado</label>
             <div class="col-sm-6" name="suburb_container" id="suburb_container">
                 <select name="suburb" id="suburb" class="form-control" disabled>
                 </select>
@@ -199,7 +199,7 @@
         </div>
 
         <div class="form-group">
-            <label for="" class="col-sm-2 control-label">Nueva colonia</label>
+            <label for="" class="col-sm-2 control-label">Nuevo Lugar Poblado</label>
             <div class="col-sm-6">
                 <div class="checkbox">
                     <label>
@@ -207,8 +207,22 @@
                     </label>
                 </div>
                 <div id="new-suburb-container" style="display:none">
-                    {{Form::text('new_suburb', '', array('placeholder' => 'Nueva colonia...', 'class' => 'form-control'))}}
+                    {{Form::text('new_suburb', '', array('placeholder' => 'Nuevo Lugar Poblado...', 'class' => 'form-control'))}}
                 </div>                
+            </div>
+        </div>
+
+        <div class="form-group {{($errors->has('zone') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Zona</label>
+            <div class="col-sm-6" name="suburb_container" id="suburb_container">
+                {{Form::text('zone', '', array('class' => 'form-control', 'maxlength' => 2))}}
+            </div>
+        </div>
+
+        <div class="form-group {{($errors->has('suburb') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Área</label>
+            <div class="col-sm-6" name="suburb_container" id="suburb_container">
+                {{Form::text('area', '', array('class' => 'form-control', 'maxlength' => 2))}}
             </div>
         </div>
 
@@ -222,7 +236,7 @@
             </div>
         </div>
         
-        <div class="form-group {{($errors->has('actitude') ? 'has-error' : '')}} ">
+        <!-- <div class="form-group {{($errors->has('actitude') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Actitud</label>
             <div class="col-sm-6">
                 <select name="actitude" id="actitude" class="form-control">
@@ -231,9 +245,9 @@
                     @endforeach
                 </select>
             </div>
-        </div>
+        </div> -->
         
-        <div class="form-group {{($errors->has('incomming') ? 'has-error' : '')}} ">
+        <!-- <div class="form-group {{($errors->has('incomming') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Nivel Socioecon&oacute;mico</label>
             <div class="col-sm-6">
                 <select name="incomming" id="incomming" class="form-control">
@@ -242,7 +256,7 @@
                 <?php } ?>
                 </select>
             </div>
-        </div>
+        </div> -->
         
         <div class="form-group {{($errors->has('estimated_age') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Edad Estimada</label>
@@ -263,8 +277,15 @@
                 </select>
             </div>
         </div>
+
+        <div class="form-group {{($errors->has('age') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Edad</label>
+            <div class="col-sm-6">
+                {{Form::text('age', '', array('class' => 'form-control', 'maxlength' => 2))}}
+            </div>
+        </div>
         
-        <div class="form-group {{($errors->has('latitude') ? 'has-error' : '')}} ">
+        <!-- <div class="form-group {{($errors->has('latitude') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Latitud</label>
             <div class="col-sm-6">
                 {{Form::text('latitude', $value = null, array('class' => 'form-control') )}}
@@ -282,7 +303,7 @@
                     <span class="help-block">{{$errors->first('longitude')}}</span>
                 @endif
             </div>
-        </div>
+        </div> -->
         
         <div class="form-group {{($errors->has('url_facade') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Fotograf&iacute;a de la Fachada</label>

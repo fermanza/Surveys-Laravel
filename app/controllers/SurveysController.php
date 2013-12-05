@@ -77,11 +77,14 @@ class SurveysController extends BaseController
             }
             
             $questionary_made->date = Input::get('date');
-            $questionary_made->actitude = Input::get('actitude');
-            $questionary_made->incomming = Input::get('incomming');
+            // $questionary_made->actitude = Input::get('actitude');
+            // $questionary_made->incomming = Input::get('incomming');
             $questionary_made->estimated_age = Input::get('estimated_age');
-            $questionary_made->latitude = Input::get('latitude');
-            $questionary_made->longitude = Input::get('longitude');
+            $questionary_made->age = Input::get('age');
+            $questionary_made->zone = Input::get('zone');
+            $questionary_made->area = Input::get('area');
+            // $questionary_made->latitude = Input::get('latitude');
+            // $questionary_made->longitude = Input::get('longitude');
             
             if (Input::hasFile('url_facade'))
             {
@@ -183,6 +186,8 @@ class SurveysController extends BaseController
             $respondent->township = Input::get('township');
             $respondent->section = Input::get('section');
             $respondent->cologne = Input::get('cologne');
+            $respondent->type = Input::get('type');
+            $respondent->identity_document = Input::get('identity_document');
             $respondent->save();
             
             return Redirect::to('/admin/surveys/'.$questionary_id)->with('message', array(

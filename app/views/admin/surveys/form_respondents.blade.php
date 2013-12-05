@@ -46,7 +46,7 @@
         </div>
         
         <div class="form-group {{($errors->has('patern_name') ? 'has-error' : '')}} ">
-            <label for="" class="col-sm-2 control-label">Appelido Paterno</label>
+            <label for="" class="col-sm-2 control-label">Apellido Paterno</label>
             <div class="col-sm-6">
                 {{Form::text('patern_name', $value = null, array('class' => 'form-control') )}}
                 @if($errors->has('patern_name'))
@@ -150,6 +150,27 @@
                 {{Form::text('cologne', $value = null, array('class' => 'form-control') )}}
                 @if($errors->has('cologne'))
                     <span class="help-block">{{$errors->first('cologne')}}</span>
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group {{($errors->has('cologne') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">El Encuestado es</label>
+            <div class="col-sm-6">
+                <select name="type" id="type" class="form-control">
+                    <option value="1">Jefe de Familia</option>
+                    <option value="2">Cónyugue del jefe de familia</option>
+                    <option value="3">Miembro de la familia</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group {{($errors->has('cologne') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Documento de Identidad</label>
+            <div class="col-sm-6">
+                {{Form::text('identity_document', $value = null, array('class' => 'form-control', 'maxlength' => 8) )}}
+                @if($errors->has('identity_document'))
+                    <span class="help-block">{{$errors->first('identity_document')}}</span>
                 @endif
             </div>
         </div>
