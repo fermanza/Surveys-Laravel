@@ -65,6 +65,7 @@
             </div>
         </div>
         
+        <!--
         <div class="form-group {{($errors->has('birth_date') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Fecha de Nacimiento</label>
             <div class="col-sm-6">
@@ -74,6 +75,7 @@
                 @endif
             </div>
         </div>
+    -->
         
         <div class="form-group {{($errors->has('sex') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Sexo</label>

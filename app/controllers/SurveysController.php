@@ -177,7 +177,7 @@ class SurveysController extends BaseController
             $respondent->name = Input::get('name');
             $respondent->patern_name = Input::get('patern_name');
             $respondent->matern_name = Input::get('matern_name');
-            $respondent->birth_date = Input::get('birth_date');
+            // $respondent->birth_date = Input::get('birth_date');
             $respondent->sex = Input::get('sex');
             $respondent->phone = Input::get('phone');
             $respondent->cellphone = Input::get('cellphone');
