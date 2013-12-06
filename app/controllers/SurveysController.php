@@ -181,13 +181,18 @@ class SurveysController extends BaseController
             $respondent->sex = Input::get('sex');
             $respondent->phone = Input::get('phone');
             $respondent->cellphone = Input::get('cellphone');
-            $respondent->state = Input::get('state');
-            $respondent->district = Input::get('district');
-            $respondent->township = Input::get('township');
-            $respondent->section = Input::get('section');
-            $respondent->cologne = Input::get('cologne');
+            // $respondent->state = Input::get('state');
+            // $respondent->district = Input::get('district');
+            // $respondent->township = Input::get('township');
+            // $respondent->section = Input::get('section');
+            // $respondent->cologne = Input::get('cologne');
             $respondent->type = Input::get('type');
             $respondent->identity_document = Input::get('identity_document');
+            $respondent->street = Input::get('street');
+            $respondent->exterior_number = Input::get('exterior_number');
+            $respondent->interior_number = Input::get('interior_number');
+            $respondent->location_reference = Input::get('location_reference');
+            
             $respondent->save();
             
             return Redirect::to('/admin/surveys/'.$questionary_id)->with('message', array(

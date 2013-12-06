@@ -103,8 +103,48 @@
                 @endif
             </div>
         </div>
+
+        <div class="form-group {{($errors->has('cologne') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Calle</label>
+            <div class="col-sm-6">
+                {{Form::text('street', $value = null, array('class' => 'form-control', 'maxlength' => 8) )}}
+                @if($errors->has('street'))
+                    <span class="help-block">{{$errors->first('street')}}</span>
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group {{($errors->has('exterior_number') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Número exterior</label>
+            <div class="col-sm-6">
+                {{Form::text('exterior_number', $value = null, array('class' => 'form-control', 'maxlength' => 8) )}}
+                @if($errors->has('exterior_number'))
+                    <span class="help-block">{{$errors->first('exterior_number')}}</span>
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group {{($errors->has('interior_number') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Número interior</label>
+            <div class="col-sm-6">
+                {{Form::text('interior_number', $value = null, array('class' => 'form-control', 'maxlength' => 8) )}}
+                @if($errors->has('interior_number'))
+                    <span class="help-block">{{$errors->first('interior_number')}}</span>
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group {{($errors->has('location_reference') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Referencia de ubicación</label>
+            <div class="col-sm-6">
+                {{Form::text('location_reference', $value = null, array('class' => 'form-control', 'maxlength' => 8) )}}
+                @if($errors->has('location_reference'))
+                    <span class="help-block">{{$errors->first('location_reference')}}</span>
+                @endif
+            </div>
+        </div>
         
-        <div class="form-group {{($errors->has('state') ? 'has-error' : '')}} ">
+        <!-- <div class="form-group {{($errors->has('state') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Provincia</label>
             <div class="col-sm-6">
                 {{Form::text('state', $value = null, array('class' => 'form-control') )}}
@@ -152,7 +192,7 @@
                     <span class="help-block">{{$errors->first('cologne')}}</span>
                 @endif
             </div>
-        </div>
+        </div> -->
 
         <div class="form-group {{($errors->has('cologne') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">El Encuestado es</label>
