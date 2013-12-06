@@ -4,11 +4,43 @@
 
     <script>
         jQuery(document).ready(function($) {
+
             $('input[type=checkbox]').click(function(){
                 if($('input[type=checkbox]:checked').size() > 2)
                 {
                     return false;
                 }
+            });
+
+            $('form#preguntas').submit(function() {
+
+                var radios = $('input[type=radio]');
+                var validation_flag = true;
+                var group_name = '';
+                var radio_checked = 1;
+
+                $(radios).each(function(){
+                    if(group_name != $(this).attr('name')) {
+                        group_name = $(this).attr('name');
+
+                        if(radio_checked == 0) {
+                            validation_flag = false;
+                        } else  {
+                            radio_checked = 0;
+                        }
+                    }
+
+                    if($(this).is(':checked'))
+                    {
+                        radio_checked = 1;
+                    }
+
+                });
+
+                // alert(validation_flag);
+                // console.log(validation_flag);
+
+                return validation_flag;
             });
         });
     </script>
@@ -17,7 +49,7 @@
 
 @section('content')
 
-    {{Form::open( array('url' => '/admin/surveys/'.$action, 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal' ) )}}
+    {{Form::open( array('url' => '/admin/surveys/'.$action, 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal', 'id' => 'preguntas' ) )}}
     {{Form::hidden('id', $id_questionary)}}
     {{Form::hidden('questionary_made_id', $questionary_made_id)}}
     <fieldset>

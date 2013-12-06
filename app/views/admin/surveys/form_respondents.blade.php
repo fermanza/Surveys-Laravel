@@ -5,6 +5,7 @@
 <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/jsDatePick.min.1.3.js')}}"></script>
 <script type="text/javascript">
+
     window.onload = function() {
         new JsDatePick({
             useMode: 2,
@@ -89,7 +90,7 @@
         <div class="form-group {{($errors->has('phone') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Tel&eacute;fono</label>
             <div class="col-sm-6">
-                {{Form::text('phone', $value = null, array('class' => 'form-control') )}}
+                {{Form::text('phone', $value = null, array('class' => 'form-control', 'maxlength' => '8', 'pattern' => '[0-9]+', 'title' => 'Sólo se aceptan números') )}}
                 @if($errors->has('phone'))
                     <span class="help-block">{{$errors->first('phone')}}</span>
                 @endif
@@ -99,7 +100,7 @@
         <div class="form-group {{($errors->has('cellphone') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Celular</label>
             <div class="col-sm-6">
-                {{Form::text('cellphone', $value = null, array('class' => 'form-control') )}}
+                {{Form::text('cellphone', $value = null, array('class' => 'form-control', 'maxlength' => '8', 'pattern' => '[0-9]+', 'title' => 'Sólo se aceptan números') )}}
                 @if($errors->has('cellphone'))
                     <span class="help-block">{{$errors->first('cellphone')}}</span>
                 @endif
@@ -109,7 +110,7 @@
         <div class="form-group {{($errors->has('cologne') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Calle</label>
             <div class="col-sm-6">
-                {{Form::text('street', $value = null, array('class' => 'form-control', 'maxlength' => 8) )}}
+                {{Form::text('street', $value = null, array('class' => 'form-control') )}}
                 @if($errors->has('street'))
                     <span class="help-block">{{$errors->first('street')}}</span>
                 @endif
@@ -119,7 +120,7 @@
         <div class="form-group {{($errors->has('exterior_number') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Número exterior</label>
             <div class="col-sm-6">
-                {{Form::text('exterior_number', $value = null, array('class' => 'form-control', 'maxlength' => 8) )}}
+                {{Form::text('exterior_number', $value = null, array('class' => 'form-control') )}}
                 @if($errors->has('exterior_number'))
                     <span class="help-block">{{$errors->first('exterior_number')}}</span>
                 @endif
@@ -129,7 +130,7 @@
         <div class="form-group {{($errors->has('interior_number') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Número interior</label>
             <div class="col-sm-6">
-                {{Form::text('interior_number', $value = null, array('class' => 'form-control', 'maxlength' => 8) )}}
+                {{Form::text('interior_number', $value = null, array('class' => 'form-control') )}}
                 @if($errors->has('interior_number'))
                     <span class="help-block">{{$errors->first('interior_number')}}</span>
                 @endif
@@ -139,7 +140,7 @@
         <div class="form-group {{($errors->has('location_reference') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Referencia de ubicación</label>
             <div class="col-sm-6">
-                {{Form::text('location_reference', $value = null, array('class' => 'form-control', 'maxlength' => 8) )}}
+                {{Form::text('location_reference', $value = null, array('class' => 'form-control') )}}
                 @if($errors->has('location_reference'))
                     <span class="help-block">{{$errors->first('location_reference')}}</span>
                 @endif
@@ -210,7 +211,7 @@
         <div class="form-group {{($errors->has('cologne') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Documento de Identidad</label>
             <div class="col-sm-6">
-                {{Form::text('identity_document', $value = null, array('class' => 'form-control', 'maxlength' => 8) )}}
+                {{Form::text('identity_document', $value = null, array('class' => 'form-control', 'maxlength' => 8, 'pattern' => '[0-9]', 'title' => 'Solo números' ))}}
                 @if($errors->has('identity_document'))
                     <span class="help-block">{{$errors->first('identity_document')}}</span>
                 @endif
