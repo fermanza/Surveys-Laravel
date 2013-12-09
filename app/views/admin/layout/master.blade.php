@@ -78,9 +78,10 @@
 
 		<div class="container">
 			@if(Session::has('message'))
-				<div class="alert alert-{{Session::get('message')['type']}} alert-dismissable">
+			<?php $message_type = Session::get('message'); ?>
+				<div class="alert alert-{{$message_type['type']}} alert-dismissable">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-					{{Session::get('message')['message']}}
+					{{$message_type['message']}}
 				</div>
 			@endif
 			
