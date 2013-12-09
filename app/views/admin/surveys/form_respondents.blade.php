@@ -211,7 +211,7 @@
         <div class="form-group {{($errors->has('cologne') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Documento de Identidad</label>
             <div class="col-sm-6">
-                {{Form::text('identity_document', $value = null, array('class' => 'form-control', 'maxlength' => 8, 'pattern' => '[0-9]', 'title' => 'Solo números' ))}}
+                {{Form::text('identity_document', $value = null, array('class' => 'form-control', 'maxlength' => 8, 'pattern' => '[0-9]+', 'title' => 'Solo números' ))}}
                 @if($errors->has('identity_document'))
                     <span class="help-block">{{$errors->first('identity_document')}}</span>
                 @endif
