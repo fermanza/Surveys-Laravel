@@ -259,7 +259,7 @@
         </div> -->
         
         <div class="form-group {{($errors->has('estimated_age') ? 'has-error' : '')}} ">
-            <label for="" class="col-sm-2 control-label">Edad Estimada</label>
+            <label for="" class="col-sm-2 control-label">Rango de edad</label>
             <div class="col-sm-6">
                 <select name="estimated_age" id="estimated_age" class="form-control">
                     <option value="1">18 - 25</option>
