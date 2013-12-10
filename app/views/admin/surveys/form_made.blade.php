@@ -144,6 +144,48 @@
                 $('#new-suburb-container').hide();
             }
         });
+
+
+        $('input.age-text').keyup(function(){
+            var age = $(this).val();
+
+            if(age > 18 && age<=25) {
+                $('select#estimated_age').val(1);
+            } else if(age > 26 && age <= 30) {
+                $('select#estimated_age').val(2);                
+            } else if(age > 31 && age <= 35) {
+                $('select#estimated_age').val(3);                
+            } else if(age > 36 && age <= 40) {
+                $('select#estimated_age').val(4);
+            } else if(age > 41 && age <= 45) {
+                $('select#estimated_age').val(5);                
+            } else if(age > 46 && age <= 50) {
+                $('select#estimated_age').val(6);
+            } else if(age > 51 && age <= 55) {
+                $('select#estimated_age').val(7);                
+            } else if(age > 56 && age <= 60) {
+                $('select#estimated_age').val(8);
+            } else if(age > 61 && age <= 65) {
+                $('select#estimated_age').val(9);
+            } else if(age > 66 && age <= 70) {
+                $('select#estimated_age').val(10);                
+            } else if(age > 71 && age <= 75) {
+                $('select#estimated_age').val(11);                
+            } else if(age > 76 && age <= 80) {
+                $('select#estimated_age').val(12);                
+            } else if(age > 81 && age <= 85) {
+                $('select#estimated_age').val(13);                
+            } else if(age > 86 && age <= 90) {
+                $('select#estimated_age').val(14);                
+            } else if(age > 90) {
+                $('select#estimated_age').val(15);
+            } else {
+                $('select#estimated_age').val(1);
+            }
+
+            $('input#hidden_estimated_age').val( $('select#estimated_age').val() );
+
+        });
     });
 
 </script>
@@ -256,12 +298,19 @@
                 <?php } ?>
                 </select>
             </div>
-        </div> -->
+        </div> -->        
+
+        <div class="form-group {{($errors->has('age') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Edad</label>
+            <div class="col-sm-6">
+                {{Form::text('age', '', array('class' => 'form-control age-text', 'maxlength' => 2))}}
+            </div>
+        </div>
         
         <div class="form-group {{($errors->has('estimated_age') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Rango de edad</label>
             <div class="col-sm-6">
-                <select name="estimated_age" id="estimated_age" class="form-control">
+                <select name="estimated_age_select" id="estimated_age" class="form-control" disabled>
                     <option value="1">18 - 25</option>
                     <option value="2">26 - 30</option>
                     <option value="3">31 - 35</option>
@@ -270,21 +319,18 @@
                     <option value="6">46 - 50</option>
                     <option value="7">51 - 55</option>
                     <option value="8">56 - 60</option>
-                    <option value="9">66 - 70</option>
-                    <option value="10">76 - 80</option>
-                    <option value="11">86 - 90</option>
-                    <option value="12">> 90</option>
+                    <option value="9">61 - 65</option>
+                    <option value="10">66 - 70</option>
+                    <option value="11">71 - 75</option>
+                    <option value="12">76 - 80</option>
+                    <option value="13">81 - 85</option>
+                    <option value="14">86 - 90</option>
+                    <option value="15">> 90</option>
                 </select>
+                <input type="hidden" name="estimated_age" id="hidden_estimated_age" value="1">
             </div>
         </div>
 
-        <div class="form-group {{($errors->has('age') ? 'has-error' : '')}} ">
-            <label for="" class="col-sm-2 control-label">Edad</label>
-            <div class="col-sm-6">
-                {{Form::text('age', '', array('class' => 'form-control', 'maxlength' => 2))}}
-            </div>
-        </div>
-        
         <!-- <div class="form-group {{($errors->has('latitude') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Latitud</label>
             <div class="col-sm-6">
