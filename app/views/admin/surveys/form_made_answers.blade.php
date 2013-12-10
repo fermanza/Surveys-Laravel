@@ -17,7 +17,9 @@
                 var radios = $('input[type=radio]');
                 var validation_flag = true;
                 var group_name = '';
+                var group_question_number = '';
                 var radio_checked = 1;
+                var response = 'No puedes avanzar si no respondes las siguientes preguntas: \n\n';
 
                 $(radios).each(function(){
                     if(group_name != $(this).attr('name')) {
@@ -25,9 +27,12 @@
 
                         if(radio_checked == 0) {
                             validation_flag = false;
+                            response = response + group_question_number + '\n';
                         } else  {
                             radio_checked = 0;
                         }
+
+                        group_question_number = $(this).data('question');
                     }
 
                     if($(this).is(':checked'))
@@ -37,8 +42,9 @@
 
                 });
 
-                // alert(validation_flag);
-                // console.log(validation_flag);
+                if(!validation_flag) {
+                    alert(response);
+                }
 
                 return validation_flag;
             });
@@ -81,7 +87,7 @@
                         <div class="col-sm-6">
                             @foreach($answers[$question->id] as $answer)
                                 <input type="radio" name="answers_radio[{{ $question->id }}]"
-                                       value="{{ $answer->id }}">&nbsp;{{ $answer->answer }}<br />
+                                       value="{{ $answer->id }}" data-question="{{$i}}">&nbsp;{{ $answer->answer }}<br />
                             @endforeach
                         </div>                        
                         @endif
