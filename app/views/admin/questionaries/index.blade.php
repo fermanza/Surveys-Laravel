@@ -17,7 +17,10 @@
 				<td>{{$questionary->id}}</td>
 				<td>{{$questionary->name}}</td>
 				<td>
-                                    {{link_to('/admin/surveys/'.$questionary->id, 'Ver', array('class' => 'btn btn-info'))}}
+					@if(Auth::user()->user_type == 1)
+                    {{link_to('/admin/surveys/export/'.$questionary->id, 'Exportar cuestionario', array('class' => 'btn btn-primary'))}}
+                   	@endif
+                    {{link_to('/admin/surveys/'.$questionary->id, 'Ver', array('class' => 'btn btn-info'))}}
 				</td>
 			</tr>
 			@endforeach
