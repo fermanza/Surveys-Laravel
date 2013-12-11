@@ -55,13 +55,17 @@ Route::get('/admin/questionaries/{num}', array('before' => 'auth', 'uses' => 'Qu
 Route::get('/admin/questions/{num}', array('before' => 'auth', 'uses' => 'QuestionsController@index'));
 
 Route::get('/admin/surveys/{num}', array('before' => 'auth', 'uses' => 'SurveysController@index'));
+Route::get('/admin/surveys/export/{num}', array('before' => 'auth', 'uses' => 'SurveysController@export'));
 Route::get('/admin/surveys/new_survey/{num}', array('before' => 'auth', 'uses' => 'SurveysController@new_survey'));
 Route::post('/admin/surveys/get_district', array('before' => 'auth', 'uses' => 'SurveysController@get_district'));
 Route::post('/admin/surveys/get_township', array('before' => 'auth', 'uses' => 'SurveysController@get_township'));
 Route::post('/admin/surveys/get_suburbs', array('before' => 'auth', 'uses' => 'SurveysController@get_suburbs'));
+Route::get('/admin/surveys/answer/{num}/{questionary_made_id}', array('before' => 'auth', 'uses' => 'SurveysController@answer'));
 Route::post('/admin/surveys/save-create-made', array('before' => 'auth', 'uses' => 'SurveysController@save_create_made'));
 Route::post('/admin/surveys/save-create-made-answers', array('before' => 'auth', 'uses' => 'SurveysController@save_create_made_answers'));
 Route::post('/admin/surveys/save-create-respondents', array('before' => 'auth', 'uses' => 'SurveysController@save_create_respondents'));
+Route::post('/admin/surveys/get-respondent-identity', array('before' => 'auth', 'uses' => 'SurveysController@get_respondent_identity'));
+Route::get('/admin/surveys/new-respondent/{num}/{questionary_made_id}', array('before' => 'auth', 'uses' => 'SurveysController@new_respondent'));
 
 //Webservices
 
@@ -250,7 +254,7 @@ Route::post('/ws-content/json/ws-send', function(){
 
 			$answer_temp->questionary_made_id = $questionary_made->id;
 			$answer_temp->answer_id = $answer->id;
-			$answer_temp->answer = $answer->value;
+			$answer_temp->answer_text = $answer->value;
 			$answer_temp->which = $question->which;
 			$answer_temp->question_id = $question->id;
 
