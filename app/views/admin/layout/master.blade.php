@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>VSEncuestas | {{$section}}</title>
+		<title>Encuestas | {{$section}}</title>
 		<meta charset="UTF-8" />
 		<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
 		<link rel="stylesheet" href="{{asset('css/default.css')}}">
