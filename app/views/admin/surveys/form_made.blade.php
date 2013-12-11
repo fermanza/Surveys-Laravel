@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{asset('css/jsDatePick_ltr.min.css')}}">
 <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/jsDatePick.min.1.3.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/utils.js')}}"></script>
 <script type="text/javascript">
 
     window.onload = function() {
@@ -195,6 +194,14 @@
     {{Form::hidden('id', $id_questionary)}}
     <fieldset>
         <legend>Nueva Encuesta</legend>
+
+        <div class="form-group {{($errors->has('date') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Folio</label>
+            <div class="col-sm-6">
+                <input type="text" size="48" id="folio" name="folio" 
+                       class="form-control" value="" />
+            </div>
+        </div>
         
         <div class="form-group {{($errors->has('date') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">País</label>
