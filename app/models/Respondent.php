@@ -8,4 +8,6 @@ class Respondent extends Eloquent
 	{
 		return $this->hasOne('QuestionaryMade');
 	}
+
+	
 }
