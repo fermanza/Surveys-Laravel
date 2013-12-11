@@ -13,6 +13,79 @@ class SurveysController extends BaseController
                     ->with('questions', $questions)
                     ->with('id_questionary', $id_questionary);
 	}
+
+    public function export($id_questionary)
+    {
+        $nameTimestamp = 'questionary-'.$id_questionary.'-export-'.date('Y.m.d.s').'.csv';
+        $csvFile = new Keboola\Csv\CsvFile('data/'.$nameTimestamp);
+
+        $csvHeader = array(
+            'Provincia',
+            'Distrito',
+            'Corregimiento',
+            'Lugar Poblado',
+            'Zona',
+            'Area',
+            'Folio',
+            'Numero',
+            'Encuestador',
+            'Supervisor',
+            'Calle (Avenida)',
+            'Ubicación',
+            'Nombre',
+            'Apellidos',
+            'Celular',
+            'Cédula',
+            'Teléfono',
+            'Sexo',
+            'Edad'
+        );
+
+        foreach(Question::all() as $question):
+            array_push($csvHeader, $question->id.'.- '.$question->question);
+        endforeach;
+
+        $csvFile->writeRow($csvHeader);
+
+        $questionaries = QuestionaryMade::where('questionary_id', '=', $id_questionary)->get();
+
+        foreach($questionaries as $questionary):
+
+            if($questionary->respondent_id == NULL)
+            {
+                $questionary->respondent = new Respondent;
+            }
+
+            $tempRow = array(
+                $questionary->state->name,
+                $questionary->district->name,
+                $questionary->township->name,
+                $questionary->suburb->name,
+                $questionary->zone,
+                $questionary->area,
+                $questionary->folio,
+                $questionary->respondent->exterior_number.'-'.$questionary->respondent->interior_number,
+                $questionary->user->name.' '.$questionary->user->pattern_name.' '.$questionary->mattern_name,
+                '',
+                $questionary->respondent->street,
+                $questionary->respondent->location_reference,
+                $questionary->respondent->name,
+                $questionary->respondent->pattern_name.' '.$questionary->respondent->mattern_name,
+                $questionary->respondent->cellphone,
+                $questionary->respondent->identity_document,
+                $questionary->respondent->sex,
+                $questionary->respondent->age
+            );
+
+            foreach($questionary->answers as $answer):
+                array_push($tempRow, $answer->answer->answer);
+            endforeach;
+
+            $csvFile->writeRow($tempRow);
+        endforeach;
+
+        return Response::download('data/'.$nameTimestamp);
+    }
         
 	public function new_survey($id_questionary)
 	{
@@ -46,74 +119,102 @@ class SurveysController extends BaseController
                     ->with('action', 'save-create-made');
 	}
 
-        public function save_create_made()
+    public function save_create_made()
+    {
+        $questionary_made = new QuestionaryMade();
+        $questionary_made->questionary_id = Input::get('id');
+        
+        $questionary_made->country_id = Auth::user()->country_id;
+        $questionary_made->state_id = Input::get('state');
+        $questionary_made->district_id = Input::get('district');
+        $questionary_made->township_id = Input::get('township');
+        $questionary_made->folio = Input::get('folio');
+        $questionary_made->user_id = Auth::user()->id;
+
+        $new_suburb = Input::get('new_suburb_check');
+        
+        if(!empty($new_suburb))
         {
-            $questionary_made = new QuestionaryMade();
-            $questionary_made->questionary_id = Input::get('id');
-            
-            $questionary_made->country_id = Auth::user()->country_id;
-            $questionary_made->state_id = Input::get('state');
-            $questionary_made->district_id = Input::get('district');
-            $questionary_made->township_id = Input::get('township');
+            $suburb = new Suburb;
 
-            $new_suburb = Input::get('new_suburb_check');
-            
-            if(!empty($new_suburb))
-            {
-                $suburb = new Suburb;
+            $suburb->country_id = $questionary_made->country_id;
+            $suburb->state_id = $questionary_made->state_id;
+            $suburb->district_id = $questionary_made->district_id;
+            $suburb->township_id = $questionary_made->township_id;
+            $suburb->name = Input::get('new_suburb');
+            $suburb->save();
 
-                $suburb->country_id = $questionary_made->country_id;
-                $suburb->state_id = $questionary_made->state_id;
-                $suburb->district_id = $questionary_made->district_id;
-                $suburb->township_id = $questionary_made->township_id;
-                $suburb->name = Input::get('new_suburb');
-                $suburb->save();
-
-                $questionary_made->suburb_id = $suburb->id;
-            }
-            else 
-            {
-                $questionary_made->suburb_id = Input::get('suburb');                
-            }
-            
-            $questionary_made->date = Input::get('date');
-            // $questionary_made->actitude = Input::get('actitude');
-            // $questionary_made->incomming = Input::get('incomming');
-            $questionary_made->estimated_age = Input::get('estimated_age');
-            $questionary_made->age = Input::get('age');
-            $questionary_made->zone = Input::get('zone');
-            $questionary_made->area = Input::get('area');
-            // $questionary_made->latitude = Input::get('latitude');
-            // $questionary_made->longitude = Input::get('longitude');
-            
-            if (Input::hasFile('url_facade'))
-            {
-		$image = Image::make( Input::file('url_facade')->getRealPath() );
-		$image->save( 'img/facades/'.md5(Input::file('url_facade')->getClientOriginalName().date('Y-m-d H:i:s')).'.'.Input::file('url_facade')->getClientOriginalExtension()  );
-		$questionary_made->url_facade = asset(str_replace(' ', '%20', 'img/facades/'.md5(Input::file('url_facade')->getClientOriginalName().date('Y-m-d H:i:s')).'.'.Input::file('url_facade')->getClientOriginalExtension()));
-            }
-            $questionary_made->save();
-            
-            $questions = Question::
-                    where('questionary_id', '=', Input::get('id'))
-                    ->get();
-            $answers = array();
-            $lastid = 0;
-            foreach($questions as $question){
-                $answers[$question->id] = Answer::
-                    where('question_id', '=', $question->id)
-                    ->get();
-                $lastid = $question->id;
-            }
-            
-            return View::make('admin.surveys.form_made_answers')
-                    ->with('section', 'Crear Encuestas')
-                    ->with('questions', $questions)
-                    ->with('id_questionary', Input::get('id'))
-                    ->with('questionary_made_id', $questionary_made->id)
-                    ->with('answers', $answers)
-                    ->with('action', 'save-create-made-answers');
+            $questionary_made->suburb_id = $suburb->id;
         }
+        else 
+        {
+            $questionary_made->suburb_id = Input::get('suburb');                
+        }
+        
+        $questionary_made->date = Input::get('date');
+        // $questionary_made->actitude = Input::get('actitude');
+        // $questionary_made->incomming = Input::get('incomming');
+        $questionary_made->estimated_age = Input::get('estimated_age');
+        $questionary_made->age = Input::get('age');
+        $questionary_made->zone = Input::get('zone');
+        $questionary_made->area = Input::get('area');
+        // $questionary_made->latitude = Input::get('latitude');
+        // $questionary_made->longitude = Input::get('longitude');
+        
+        if (Input::hasFile('url_facade'))
+        {
+        	$image = Image::make( Input::file('url_facade')->getRealPath() );
+        	$image->save( 'img/facades/'.md5(Input::file('url_facade')->getClientOriginalName().date('Y-m-d H:i:s')).'.'.Input::file('url_facade')->getClientOriginalExtension()  );
+        	$questionary_made->url_facade = asset(str_replace(' ', '%20', 'img/facades/'.md5(Input::file('url_facade')->getClientOriginalName().date('Y-m-d H:i:s')).'.'.Input::file('url_facade')->getClientOriginalExtension()));
+        }
+        $questionary_made->save();
+        
+        $questions = Question::
+                where('questionary_id', '=', Input::get('id'))
+                ->get();
+        $answers = array();
+        $lastid = 0;
+        foreach($questions as $question){
+            $answers[$question->id] = Answer::
+                where('question_id', '=', $question->id)
+                ->get();
+            $lastid = $question->id;
+        }
+
+        return Redirect::to('/admin/surveys/answer/'.Input::get('id').'/'.$questionary_made->id);
+        
+        // return View::make('admin.surveys.form_made_answers')
+        //         ->with('section', 'Crear Encuestas')
+        //         ->with('questions', $questions)
+        //         ->with('id_questionary', Input::get('id'))
+        //         ->with('questionary_made_id', $questionary_made->id)
+        //         ->with('answers', $answers)
+        //         ->with('action', 'save-create-made-answers');
+    }
+
+    public function answer($questionary_id, $questionary_made_id)
+    {
+        $questions = Question::
+                where('questionary_id', '=', $questionary_id)
+                ->get();
+
+        $answers = array();
+        $lastid = 0;
+        foreach($questions as $question){
+            $answers[$question->id] = Answer::
+                where('question_id', '=', $question->id)
+                ->get();
+            $lastid = $question->id;
+        }
+
+        return View::make('admin.surveys.form_made_answers')
+                ->with('section', 'Crear Encuestas')
+                ->with('questions', $questions)
+                ->with('id_questionary', $questionary_id)
+                ->with('questionary_made_id', $questionary_made_id)
+                ->with('answers', $answers)
+                ->with('action', 'save-create-made-answers');
+    }
         
 	public function save_create_made_answers()
 	{
@@ -133,7 +234,7 @@ class SurveysController extends BaseController
 
                         $qma->questionary_made_id = Input::get('questionary_made_id');
                         $qma->answer_id = $_POST['answers_checkbox'][$question->id][$i];
-                        $qma->answer = "";
+                        $qma->answer_text = "";
                         $qma->which = "";
                         $qma->question_id = $question->id;
                         $qma->save();
@@ -145,7 +246,7 @@ class SurveysController extends BaseController
 
                     $qma->questionary_made_id = Input::get('questionary_made_id');
                     $qma->answer_id = $answers_radio[$question->id];
-                    $qma->answer = "";
+                    $qma->answer_text = "";
                     $qma->which = "";
                     $qma->question_id = $question->id;
                     $qma->save();                    
@@ -159,14 +260,25 @@ class SurveysController extends BaseController
                     'message' => 'Encuesta creada.'
                 ));
             }
+
+            return Redirect::to('/admin/surveys/new-respondent/'.$questionary_id.'/'.Input::get('questionary_made_id'));
             
             // Show respondents questionary
-            return View::make('admin.surveys.form_respondents')
+            // return View::make('admin.surveys.form_respondents')
+            //         ->with('section', 'Crear Encuestas')
+            //         ->with('id_questionary', $questionary_id)
+            //         ->with('questionary_made_id', Input::get('questionary_made_id'))
+            //         ->with('action', 'save-create-respondents');
+	}
+
+    public function new_respondent($questionary_id, $questionary_made_id)
+    {
+        return View::make('admin.surveys.form_respondents')
                     ->with('section', 'Crear Encuestas')
                     ->with('id_questionary', $questionary_id)
-                    ->with('questionary_made_id', Input::get('questionary_made_id'))
+                    ->with('questionary_made_id', $questionary_made_id)
                     ->with('action', 'save-create-respondents');
-	}
+    }
         
         public function save_create_respondents(){
             
@@ -337,5 +449,10 @@ class SurveysController extends BaseController
 			'message' => 'Usuario eliminado.'
 		));
 	}
+
+    public function get_respondent_identity()
+    {
+        return RespondentBase::where('identity_document', '=', Input::get('identity_document'))->first();
+    }
 
 }
