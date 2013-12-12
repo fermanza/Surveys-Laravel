@@ -2,7 +2,9 @@
 @section('content')
 
 <link rel="stylesheet" href="{{asset('css/jsDatePick_ltr.min.css')}}">
+<link rel="stylesheet" href="{{asset('js/chosen/chosen.min.css')}}">
 <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/chosen/chosen.jquery.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/jsDatePick.min.1.3.js')}}"></script>
 <script type="text/javascript">
 
@@ -185,6 +187,29 @@
             $('input#hidden_estimated_age').val( $('select#estimated_age').val() );
 
         });
+
+        $('#users').change(function(){
+
+            $.post('{{url('/admin/surveys/get-child-users')}}', { user_id: $(this).val() }, function(data){
+                console.log(data);
+
+                $('#child-users').empty();
+
+                for(var key in data) {
+                    var temp_option = $('<option></option>');
+                    temp_option.html(data[key].name+' '+data[key].patern_name+' '+data[key].matern_name);
+                    temp_option.val(data[key].id);
+                    $('#child-users').append(temp_option);
+                    $('#child-users').trigger("liszt:updated");
+                }
+
+                // $('#child-users').chosen();
+            });
+
+        });
+
+        $('#users').chosen();
+        $('#child-users').chosen();
     });
 
 </script>
@@ -194,6 +219,26 @@
     {{Form::hidden('id', $id_questionary)}}
     <fieldset>
         <legend>Nueva Encuesta</legend>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">Supervisor</label>
+            <div class="col-sm-6">
+                <select name="" id="users" class="form-control">
+                    @foreach($users as $user)
+                    <option value="{{$user->id}}">{{$user->name.' '.$user->patern_name.' '.$user->matern_name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">Encuestador</label>
+            <div class="col-sm-6">
+                <select name="" id="child-users" class="form-control">
+                    
+                </select>
+            </div>
+        </div>
 
         <div class="form-group {{($errors->has('date') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Folio</label>

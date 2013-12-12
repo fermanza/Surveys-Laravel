@@ -116,6 +116,7 @@ class SurveysController extends BaseController
                     ->with('actitude', $actitude)
                     ->with('country', $country)
                     ->with('states', $states)
+                    ->with('users', User::where('user_type', '=', 2)->get())
                     ->with('action', 'save-create-made');
 	}
 
@@ -453,6 +454,11 @@ class SurveysController extends BaseController
     public function get_respondent_identity()
     {
         return RespondentBase::where('identity_document', '=', Input::get('identity_document'))->first();
+    }
+
+    public function get_child_users()
+    {
+        return User::find(Input::get('user_id'))->users;
     }
 
 }
