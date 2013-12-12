@@ -19,13 +19,13 @@ class UsersController extends BaseController
             return View::make('admin.users.form')
                     ->with('section', 'Nuevo Usuario')
                     ->with('action', 'save-create')
+                    ->with('users', User::where('user_type', '=', 2)->get())
                     ->with('user', new User)
                     ->with('user_type', UserType::all());
 	}
 
 	public function save_create()
 	{
-
 		$validator = Validator::make(
 			Input::all(),
 			array(
@@ -51,7 +51,12 @@ class UsersController extends BaseController
 		$user->email = Input::get('email');
 		$user->password = Hash::make(Input::get('password'));
 		$user->active = 1;
-                $user->user_type = Input::get('user_type');
+        $user->user_type = Input::get('user_type');
+
+        if($user->user_type == 2)
+        {
+        	$user->user_id = Input::get('user_id');
+        }
 
 		$user->save();
 

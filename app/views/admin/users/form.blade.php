@@ -1,6 +1,27 @@
 @extends('admin.layout.master')
 
+@section('scripts')
+
+	<script src="{{asset('js/chosen/chosen.jquery.min.js')}}"></script>
+	<script>
+		jQuery(document).ready(function($) {
+
+			$('#user_type').change(function(event) {
+				$('#users-control').chosen();
+				if($(this).val() == 2) {
+					$('#users-select').css('visibility', 'visible').hide().fadeIn('fast');
+				} else {
+					$('#users-select').fadeOut('fast').css('visibility', 'hidden');
+				}
+			});
+		});
+	</script>
+
+@endsection
+
 @section('content')
+
+	<link rel="stylesheet" href="{{asset('js/chosen/chosen.min.css')}}">
 
 	{{Form::open( array('url' => '/admin/users/'.$action, 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal' ) )}}
 		{{Form::hidden('id', $user->id)}}
@@ -65,14 +86,25 @@
 		</div>
                 
 		<div class="form-group">
-                    <label for="" class="col-sm-2 control-label">Tipo de Usuario</label>
-                    <div class="col-sm-6">
-                        <select name="user_type" id="user_type" class="form-control">
-                            @foreach( $user_type as $u_type )
-                                <option value="{{$u_type->id}}" @if($user->user_type == $u_type->id) selected='selected' @endif >{{$u_type->description}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+            <label for="" class="col-sm-2 control-label">Tipo de Usuario</label>
+            <div class="col-sm-6">
+                <select name="user_type" id="user_type" class="form-control">
+                    @foreach( $user_type as $u_type )
+                        <option value="{{$u_type->id}}" @if($user->user_type == $u_type->id) selected='selected' @endif >{{$u_type->description}}</option>
+                    @endforeach
+                </select>
+            </div>
+		</div>
+
+		<div id="users-select" class="form-group" style="visibility:hidden">
+			<label for="" class="col-sm-2 control-label">Nombre Supervisor</label>
+			<div class="col-sm-6">
+				<select name="user_id" class="form-control" id="users-control">
+					@foreach($users as $user)
+					<option value="{{$user->id}}">{{$user->name.' '.$user->patern_name.' '.$user->matern_name}}</option>
+					@endforeach
+				</select>
+			</div>
 		</div>
 
 		{{Form::submit('Guardar', array('class' => 'btn btn-default'))}}
