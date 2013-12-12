@@ -66,6 +66,7 @@ Route::post('/admin/surveys/save-create-made-answers', array('before' => 'auth',
 Route::post('/admin/surveys/save-create-respondents', array('before' => 'auth', 'uses' => 'SurveysController@save_create_respondents'));
 Route::post('/admin/surveys/get-respondent-identity', array('before' => 'auth', 'uses' => 'SurveysController@get_respondent_identity'));
 Route::get('/admin/surveys/new-respondent/{num}/{questionary_made_id}', array('before' => 'auth', 'uses' => 'SurveysController@new_respondent'));
+Route::post('/admin/surveys/get-child-users', array('before' => 'auth', 'uses' => 'SurveysController@get_child_users'));
 
 //Webservices
 
@@ -208,11 +209,15 @@ Route::post('/ws-content/json/ws-send', function(){
 	$questionary_made->incomming = $data_decoded->more->incomming;
 	$questionary_made->latitude = $data_decoded->location->latitude;
 	$questionary_made->longitude = $data_decoded->location->longitude;
-	$questionary_made->country_id = $data_decoded->location->country_id;
-	$questionary_made->state_id = $data_decoded->location->id_state;
-	$questionary_made->district_id = $data_decoded->location->id_district;
-	$questionary_made->township_id = $data_decoded->location->id_town;
-	$questionary_made->suburb_id = $data_decoded->location->id_cologne;
+	$questionary_made->country_id = $data_decoded->country_id;
+	$questionary_made->state_id = $data_decoded->id_state;
+	$questionary_made->district_id = $data_decoded->id_district;
+	$questionary_made->township_id = $data_decoded->id_town;
+	// $questionary_made->suburb_id = $data_decoded->location->id_cologne;
+	$questionary_made->suburb_id = $data_decoded->domicile->cologne;
+	$questionary_made->area = $data_decoded->area;
+	$questionary_made->zone = $data_decoded->zone;
+	$questionary_made->age = $data_decoded->age;
 
 	if( !empty($data_decoded->respondent->name) )
 	{
@@ -230,6 +235,11 @@ Route::post('/ws-content/json/ws-send', function(){
 		$respondent->township = $data_decoded->respondent->domicile->township;
 		$respondent->section = $data_decoded->respondent->domicile->section;
 		$respondent->cologne = $data_decoded->respondent->domicile->cologne;
+		$respondent->noExt = $data_decoded->respondent->domicile->noExt;
+		$respondent->noInt = $data_decoded->respondent->domicile->noInt;
+		$respondent->section = $data_decoded->respondent->domicile->section;
+		$respondent->identity_document = $data_decoded->respondent->documentoIdentidad;
+		$respondent->reference = $data_decoded->respondent->reference;
 
 		$respondent->save();
 
