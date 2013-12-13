@@ -20,29 +20,29 @@ class SurveysController extends BaseController
         $csvFile = new Keboola\Csv\CsvFile('data/'.$nameTimestamp);
 
         $csvHeader = array(
-            'Provincia',
-            'Distrito',
-            'Corregimiento',
-            'Lugar Poblado',
-            'Zona',
-            'Area',
-            'Folio',
-            'Numero',
-            'Encuestador',
-            'Supervisor',
-            'Calle (Avenida)',
-            'Ubicación',
-            'Nombre',
-            'Apellidos',
-            'Celular',
-            'Cédula',
-            'Teléfono',
-            'Sexo',
-            'Edad'
+            utf8_decode('Provincia'),
+            utf8_decode('Distrito'),
+            utf8_decode('Corregimiento'),
+            utf8_decode('Lugar Poblado'),
+            utf8_decode('Zona'),
+            utf8_decode('Area'),
+            utf8_decode('Folio'),
+            utf8_decode('Número'),
+            utf8_decode('Encuestador'),
+            utf8_decode('Supervisor'),
+            utf8_decode('Calle (Avenida)'),
+            utf8_decode('Ubicación'),
+            utf8_decode('Nombre'),
+            utf8_decode('Apellidos'),
+            utf8_decode('Celular'),
+            utf8_decode('Cédula'),
+            utf8_decode('Teléfono'),
+            utf8_decode('Sexo'),
+            utf8_decode('Edad')
         );
 
         foreach(Question::all() as $question):
-            array_push($csvHeader, $question->id.'.- '.$question->question);
+            array_push($csvHeader, utf8_decode($question->id.'.- '.$question->question));
         endforeach;
 
         $csvFile->writeRow($csvHeader);
@@ -57,24 +57,24 @@ class SurveysController extends BaseController
             }
 
             $tempRow = array(
-                $questionary->state->name,
-                $questionary->district->name,
-                $questionary->township->name,
-                $questionary->suburb->name,
-                $questionary->zone,
-                $questionary->area,
-                $questionary->folio,
-                $questionary->respondent->exterior_number.'-'.$questionary->respondent->interior_number,
-                $questionary->user->name.' '.$questionary->user->pattern_name.' '.$questionary->mattern_name,
+                utf8_decode($questionary->state->name),
+                utf8_decode($questionary->district->name),
+                utf8_decode($questionary->township->name),
+                utf8_decode($questionary->suburb->name),
+                utf8_decode($questionary->zone),
+                utf8_decode($questionary->area),
+                utf8_decode($questionary->folio),
+                utf8_decode($questionary->respondent->exterior_number.'-'.$questionary->respondent->interior_number),
+                utf8_decode($questionary->user->name.' '.$questionary->user->pattern_name.' '.$questionary->mattern_name),
                 '',
-                $questionary->respondent->street,
-                $questionary->respondent->location_reference,
-                $questionary->respondent->name,
-                $questionary->respondent->pattern_name.' '.$questionary->respondent->mattern_name,
-                $questionary->respondent->cellphone,
-                $questionary->respondent->identity_document,
-                $questionary->respondent->sex,
-                $questionary->respondent->age
+                utf8_decode($questionary->respondent->street),
+                utf8_decode($questionary->respondent->location_reference),
+                utf8_decode($questionary->respondent->name),
+                utf8_decode($questionary->respondent->pattern_name.' '.$questionary->respondent->mattern_name),
+                utf8_decode($questionary->respondent->cellphone),
+                utf8_decode($questionary->respondent->identity_document),
+                utf8_decode($questionary->respondent->sex),
+                utf8_decode($questionary->respondent->age)
             );
 
             foreach($questionary->answers as $answer):
@@ -84,7 +84,7 @@ class SurveysController extends BaseController
             $csvFile->writeRow($tempRow);
         endforeach;
 
-        return Response::download('data/'.$nameTimestamp);
+        return Response::download($csvFile);
     }
         
 	public function new_survey($id_questionary)
