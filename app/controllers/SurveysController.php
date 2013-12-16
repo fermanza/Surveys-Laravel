@@ -130,7 +130,9 @@ class SurveysController extends BaseController
         $questionary_made->district_id = Input::get('district');
         $questionary_made->township_id = Input::get('township');
         $questionary_made->folio = Input::get('folio');
-        $questionary_made->user_id = Auth::user()->id;
+        $questionary_made->user_create = Auth::user()->id;
+        $questionary_made->user_id = Input::get('user_id');
+        $questionary_made->created_at = date('Y-m-d H:i:s');
 
         $new_suburb = Input::get('new_suburb_check');
         
@@ -183,14 +185,6 @@ class SurveysController extends BaseController
         }
 
         return Redirect::to('/admin/surveys/answer/'.Input::get('id').'/'.$questionary_made->id);
-        
-        // return View::make('admin.surveys.form_made_answers')
-        //         ->with('section', 'Crear Encuestas')
-        //         ->with('questions', $questions)
-        //         ->with('id_questionary', Input::get('id'))
-        //         ->with('questionary_made_id', $questionary_made->id)
-        //         ->with('answers', $answers)
-        //         ->with('action', 'save-create-made-answers');
     }
 
     public function answer($questionary_id, $questionary_made_id)
@@ -263,13 +257,6 @@ class SurveysController extends BaseController
             }
 
             return Redirect::to('/admin/surveys/new-respondent/'.$questionary_id.'/'.Input::get('questionary_made_id'));
-            
-            // Show respondents questionary
-            // return View::make('admin.surveys.form_respondents')
-            //         ->with('section', 'Crear Encuestas')
-            //         ->with('id_questionary', $questionary_id)
-            //         ->with('questionary_made_id', Input::get('questionary_made_id'))
-            //         ->with('action', 'save-create-respondents');
 	}
 
     public function new_respondent($questionary_id, $questionary_made_id)
