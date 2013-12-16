@@ -200,7 +200,8 @@
                     temp_option.html(data[key].name+' '+data[key].patern_name+' '+data[key].matern_name);
                     temp_option.val(data[key].id);
                     $('#child-users').append(temp_option);
-                    $('#child-users').trigger("liszt:updated");
+
+                    $('#child-users').trigger("chosen:updated");
                 }
 
                 // $('#child-users').chosen();
@@ -234,7 +235,7 @@
         <div class="form-group">
             <label for="" class="col-sm-2 control-label">Encuestador</label>
             <div class="col-sm-6">
-                <select name="" id="child-users" class="form-control">
+                <select name="user_id" id="child-users" class="form-control">
                     
                 </select>
             </div>
@@ -244,7 +245,7 @@
             <label for="" class="col-sm-2 control-label">Folio</label>
             <div class="col-sm-6">
                 <input type="text" size="48" id="folio" name="folio" 
-                       class="form-control" value="" />
+                       class="form-control" value="" maxlength="7" />
             </div>
         </div>
         

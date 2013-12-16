@@ -68,6 +68,11 @@ Route::post('/admin/surveys/get-respondent-identity', array('before' => 'auth', 
 Route::get('/admin/surveys/new-respondent/{num}/{questionary_made_id}', array('before' => 'auth', 'uses' => 'SurveysController@new_respondent'));
 Route::post('/admin/surveys/get-child-users', array('before' => 'auth', 'uses' => 'SurveysController@get_child_users'));
 
+Route::get('/admin/reports/users-surveys', array('before' => 'auth', 'uses' => 'ReportsController@users_surveys'));
+Route::post('/admin/reports/users-surveys', array('before' => 'auth', 'uses' => 'ReportsController@users_surveys'));
+Route::get('/admin/reports/pollster-surveys', array('before' => 'auth', 'uses' => 'ReportsController@pollster_surveys'));
+Route::post('/admin/reports/pollster-surveys', array('before' => 'auth', 'uses' => 'ReportsController@pollster_surveys'));
+
 //Webservices
 
 Route::post('/ws-content/json/ws-login', function(){
