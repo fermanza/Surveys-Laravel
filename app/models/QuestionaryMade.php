@@ -9,6 +9,11 @@ class QuestionaryMade extends Eloquent
 		return $this->belongsTo('User');
 	}
 
+	public function userCreate()
+	{
+		return $this->belongsTo('User', 'user_create');
+	}
+
 	public function questionary()
 	{
 		return $this->belongsTo('Questionary');
@@ -47,5 +52,34 @@ class QuestionaryMade extends Eloquent
 	public function suburb()
 	{
 		return $this->belongsTo('Suburb');
+	}
+
+	public static function getQuestionariesByUser($user_type=0, $start_date, $end_date)
+	{
+
+		if($user_type == 1)
+		{
+			$query = QuestionaryMade::groupBy('user_id')->select(DB::raw('*, count(*) surveys'));
+
+			if($start_date != false && $end_date != false)
+			{
+				$query->where('date', '>=', $start_date)->where('date', '<=', $end_date);
+			}
+
+			return $query->get();
+
+		}
+		else 
+		{
+			$query = QuestionaryMade::groupBy('user_create')->select(DB::raw('*, count(*) surveys'));
+
+			if($start_date != false && $end_date != false)
+			{
+				$query->where('created_at', '>=', $start_date)->where('created_at', '<=', $end_date);
+			}
+
+			return $query->get();
+		}
+
 	}
 }
