@@ -133,6 +133,7 @@ class SurveysController extends BaseController
         $questionary_made->user_create = Auth::user()->id;
         $questionary_made->user_id = Input::get('user_id');
         $questionary_made->created_at = date('Y-m-d H:i:s');
+        $questionary_made->response_type = Input::get('response_type');
 
         $new_suburb = Input::get('new_suburb_check');
         

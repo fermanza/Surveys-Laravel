@@ -403,6 +403,16 @@
                 @endif
             </div>
         </div> -->
+
+        <div class="form-group {{($errors->has('response_type') ? 'has-error' : '')}} ">
+            <label for="" class="col-sm-2 control-label">Tipo de respuesta</label>
+            <div class="col-sm-6">
+                <select name="response_type" id="" class="form-control">
+                    <option value="0">Telefónica</option>
+                    <option value="1">Personal</option>
+                </select>
+            </div>
+        </div>
         
         <div class="form-group {{($errors->has('url_facade') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Fotograf&iacute;a de la Fachada</label>
