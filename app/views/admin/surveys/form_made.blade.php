@@ -43,7 +43,7 @@
             var district_select = "<select name=district id='district' class='form-control' onChange='getTownships();'>";
             district_select += "<option value='0'>- Seleccione un Distrito -</option>";
             $.each(result, function(key, value) {
-            district_select += "<option value='"+value.id+"'>"+value.name+"</option>";
+            district_select += "<option value='"+value.id+"'>"+value.id+".- "+value.name+"</option>";
             });
             district_select += "</select>";
             document.getElementById('district_container').innerHTML=district_select;
@@ -81,7 +81,7 @@
             var township_select = "<select name=township id='township' class='form-control' onChange='getSuburbs();'>";
             township_select += "<option value='0'>- Seleccione un Corregimiento -</option>";
             $.each(result, function(key, value) {
-                township_select += "<option value='"+value.id+"'>"+value.name+"</option>";
+                township_select += "<option value='"+value.id+"'>"+value.id+".- "+value.name+"</option>";
             });
             township_select += "</select>";
             document.getElementById('township_container').innerHTML=township_select;
@@ -123,7 +123,7 @@
             var suburb_select = "<select name='suburb' id='suburb' class='form-control'>";
             suburb_select += "<option value='0'>- Seleccione un Lugar Poblado -</option>";
             $.each(result, function(key, value) {
-                suburb_select += "<option value='"+value.id+"'>"+value.name+"</option>";
+                suburb_select += "<option value='"+value.id+"'>"+value.id+".- "+value.name+"</option>";
             });
             suburb_select += "</select>";
             document.getElementById('suburb_container').innerHTML=suburb_select;
@@ -263,7 +263,7 @@
                 <select name="state" id="state" class="form-control" onChange="getDistricts();">
                 <option value='0'>- Seleccione una Provincia -</option>
                     @foreach( $states as $state )
-                        <option value="{{$state->id}}">{{$state->name}}</option>
+                        <option value="{{$state->id}}">{{$state->id}}.- {{$state->name}}</option>
                     @endforeach
                 </select>
             </div>
