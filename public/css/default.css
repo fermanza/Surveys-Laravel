@@ -43,3 +43,7 @@ div.container {
 	color: white;
 	background-color: #d06600;
 }
+
+.needs-validation {
+	border-color: red;
+}

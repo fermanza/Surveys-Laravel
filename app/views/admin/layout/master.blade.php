@@ -79,6 +79,11 @@
 					{{$message_type['message']}}
 				</div>
 			@endif
+
+			<div id="validation-error" class="alert alert-danger alert-dismissable" style="display:none">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				Revise los campos en rojo antes de continuar
+			</div>
 			
 			@yield('content')
 		</div>

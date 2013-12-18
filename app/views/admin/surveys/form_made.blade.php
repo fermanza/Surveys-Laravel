@@ -26,6 +26,30 @@
              weekStartDay:1*/
         });
     };
+
+    function validateForm() {
+        var submit = true;
+
+        $('.validate-input').each(function(){
+
+            if($(this).val() == '' || $(this).val() == 0) {
+                submit = false;
+                $(this).addClass('needs-validation');
+            } else {
+                $(this).removeClass('needs-validation');
+            }
+
+        });
+
+        if(!submit) {
+            $('#validation-error').fadeIn();
+            $('html, body').animate( { scrollTop: $('#validation-error').offset().top }, 1000 );
+        } else {
+            $('#validation-error').fadeOut();
+        }
+        
+        return submit;
+    }
     
     function getDistricts() {
         
@@ -211,6 +235,10 @@
 
         $('#users').chosen();
         $('#child-users').chosen();
+
+        $('form').submit(function(){
+            return validateForm();
+        });
     });
 
 </script>
@@ -235,7 +263,7 @@
         <div class="form-group">
             <label for="" class="col-sm-2 control-label">Encuestador</label>
             <div class="col-sm-6">
-                <select name="user_id" id="child-users" class="form-control">
+                <select name="user_id" id="child-users" class="form-control validate-input" >
                     
                 </select>
             </div>
@@ -245,7 +273,7 @@
             <label for="" class="col-sm-2 control-label">Folio</label>
             <div class="col-sm-6">
                 <input type="text" size="48" id="folio" name="folio" 
-                       class="form-control" value="" maxlength="7" />
+                       class="form-control validate-input" value="" maxlength="7" />
             </div>
         </div>
         
@@ -260,7 +288,7 @@
         <div class="form-group {{($errors->has('state') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Provincia</label>
             <div class="col-sm-6">
-                <select name="state" id="state" class="form-control" onChange="getDistricts();">
+                <select name="state" id="state" class="form-control validate-input" onChange="getDistricts();">
                 <option value='0'>- Seleccione una Provincia -</option>
                     @foreach( $states as $state )
                         <option value="{{$state->id}}">{{$state->id}}.- {{$state->name}}</option>
@@ -272,7 +300,7 @@
         <div class="form-group {{($errors->has('district') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Distrito</label>
             <div class="col-sm-6" name="district_container" id="district_container">
-                <select name="district" id="district" class="form-control" onChange="getTownships();" disabled>
+                <select name="district" id="district" class="form-control validate-input" onChange="getTownships();" disabled>
                 </select>
             </div>
         </div>
@@ -280,7 +308,7 @@
         <div class="form-group {{($errors->has('township') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Corregimiento</label>
             <div class="col-sm-6" name="township_container" id="township_container">
-                <select name="township" id="township" class="form-control" onChange="getColognes();" disabled>
+                <select name="township" id="township" class="form-control validate-input" onChange="getColognes();" disabled>
                 </select>
             </div>
         </div>
@@ -288,7 +316,7 @@
         <div class="form-group {{($errors->has('suburb') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Lugar Poblado</label>
             <div class="col-sm-6" name="suburb_container" id="suburb_container">
-                <select name="suburb" id="suburb" class="form-control" disabled>
+                <select name="suburb" id="suburb" class="form-control validate-input" disabled>
                 </select>
             </div>
         </div>
@@ -310,21 +338,21 @@
         <div class="form-group {{($errors->has('zone') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Zona</label>
             <div class="col-sm-6" name="suburb_container" id="suburb_container">
-                {{Form::text('zone', '', array('class' => 'form-control', 'maxlength' => 2))}}
+                {{Form::text('zone', '', array('class' => 'form-control validate-input', 'maxlength' => 2))}}
             </div>
         </div>
 
         <div class="form-group {{($errors->has('suburb') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Área</label>
             <div class="col-sm-6" name="suburb_container" id="suburb_container">
-                {{Form::text('area', '', array('class' => 'form-control', 'maxlength' => 2))}}
+                {{Form::text('area', '', array('class' => 'form-control validate-input', 'maxlength' => 2))}}
             </div>
         </div>
 
         <div class="form-group {{($errors->has('date') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Fecha</label>
             <div class="col-sm-6">
-                <input type="text" size="48" id="date" name="date" class="form-control" />
+                <input type="text" size="48" id="date" name="date" class="form-control validate-input" />
                 @if($errors->has('date'))
                     <span class="help-block">{{$errors->first('date')}}</span>
                 @endif
@@ -356,7 +384,7 @@
         <div class="form-group {{($errors->has('age') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Edad</label>
             <div class="col-sm-6">
-                {{Form::text('age', '', array('class' => 'form-control age-text', 'maxlength' => 2))}}
+                {{Form::text('age', '', array('class' => 'form-control age-text validate-input', 'maxlength' => 2))}}
             </div>
         </div>
         
@@ -407,7 +435,7 @@
         <div class="form-group {{($errors->has('response_type') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Tipo de respuesta</label>
             <div class="col-sm-6">
-                <select name="response_type" id="" class="form-control">
+                <select name="response_type" id="" class="form-control validate-input">
                     <option value="0">Telefónica</option>
                     <option value="1">Personal</option>
                 </select>
