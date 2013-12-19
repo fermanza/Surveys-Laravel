@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="{{asset('css/jsDatePick_ltr.min.css')}}">
 <link rel="stylesheet" href="{{asset('js/chosen/chosen.min.css')}}">
 <script type="text/javascript" src="{{asset('js/jquery.js')}}"></script>
+<script src="{{asset('js/jquery.form.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/chosen/chosen.jquery.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/jsDatePick.min.1.3.js')}}"></script>
 <script type="text/javascript">
@@ -236,18 +237,107 @@
         $('#users').chosen();
         $('#child-users').chosen();
 
-        $('form').submit(function(){
+        $('form#main-form').submit(function(){
             return validateForm();
+        });;
+
+        $('form#main-form').submit(function(){
+            return validateForm();
+        });
+
+        $('form#new-user-form').ajaxForm(function(responseText){
+            $('#users').val(responseText.user_id).trigger('change');
+            $('#child-users').val(responseText.id);
+
+            $('#users, #child-users').trigger('chosen:updated');
         });
     });
 
 </script>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Nuevo encuestador</h4>
+          </div>
+          <div class="modal-body">
+            {{Form::open( array('url' => 'admin/users/save-create-ajax', 'method' => 'POST', 'id' => 'new-user-form', 'class' => 'form-horizontal') )}}
+
+            <div class="form-group {{($errors->has('name') ? 'has-error' : '')}} ">
+                <label for="" class="col-sm-4 control-label">Nombre</label>
+                <div class="col-sm-6">
+                    {{Form::text('name', '', array('class' => 'form-control') )}}
+                </div>
+            </div>
+
+            <div class="form-group {{($errors->has('patern_name') ? 'has-error' : '')}} ">
+                <label for="" class="col-sm-4 control-label">Apellido Paterno</label>
+                <div class="col-sm-6">
+                    {{Form::text('patern_name', '', array('class' => 'form-control') )}}
+                </div>
+            </div>
+
+            <div class="form-group {{($errors->has('patern_name') ? 'has-error' : '')}} ">
+                <label for="" class="col-sm-4 control-label">Apellido Materno</label>
+                <div class="col-sm-6">
+                    {{Form::text('matern_name', '', array('class' => 'form-control') )}}
+                </div>
+            </div>
+
+            <div class="form-group {{($errors->has('email') ? 'has-error' : '')}} ">
+                <label for="" class="col-sm-4 control-label">Correo</label>
+                <div class="col-sm-6">
+                    {{Form::text('email', '', array('class' => 'form-control') )}}
+                </div>
+            </div>
+
+            <div class="form-group {{($errors->has('password') ? 'has-error' : '')}} ">
+                <label for="" class="col-sm-4 control-label">Contraseña</label>
+                <div class="col-sm-6">
+                    {{Form::password('password', array('class' => 'form-control') )}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="" class="col-sm-4 control-label">Confirmar contraseña</label>
+                <div class="col-sm-6">
+                    {{Form::password('password_confirmation', array('class' => 'form-control') )}}
+                </div>
+            </div>
+
+            {{Form::hidden('user_type', 4)}}
+
+            <div id="users-select" class="form-group">
+                <label for="" class="col-sm-4 control-label">Nombre Supervisor</label>
+                <div class="col-sm-6">
+                    <select name="user_id" class="form-control" id="users-control">
+                        @foreach($users as $user)
+                        <option value="{{$user->id}}">{{$user->name.' '.$user->patern_name.' '.$user->matern_name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            {{Form::submit('Guardar', array('class' => 'btn btn-primary'))}}
+            {{Form::close()}}
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     
 
-    {{Form::open( array('url' => '/admin/surveys/'.$action, 'files' => true, 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal' ) )}}
+    {{Form::open( array('url' => '/admin/surveys/'.$action, 'files' => true, 'method' => 'POST', 'role' => 'form', 'id' => 'main-form', 'class' => 'form-horizontal' ) )}}
     {{Form::hidden('id', $id_questionary)}}
     <fieldset>
         <legend>Nueva Encuesta</legend>
+
+        
 
         <div class="form-group">
             <label for="" class="col-sm-2 control-label">Supervisor</label>
@@ -266,6 +356,9 @@
                 <select name="user_id" id="child-users" class="form-control validate-input" >
                     
                 </select>
+            </div>
+            <div class="col-sm-2">
+                <img src="{{asset('img/add_user_24_24.png')}}" alt="" data-toggle="modal" data-target="#addUser" style="cursor:pointer">
             </div>
         </div>
 

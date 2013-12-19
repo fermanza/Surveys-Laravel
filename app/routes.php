@@ -41,6 +41,7 @@ Route::get('/admin/home', array('before' => 'auth', 'uses' => 'HomeController@in
 Route::get('/admin/users', array('before' => 'auth', 'uses' => 'UsersController@index'));
 Route::get('/admin/users/create', array('before' => 'auth', 'uses' => 'UsersController@create'));
 Route::post('/admin/users/save-create', array('before' => 'auth', 'uses' => 'UsersController@save_create'));
+Route::post('/admin/users/save-create-ajax', array('before' => 'auth', 'uses' => 'UsersController@save_create_ajax'));
 Route::get('/admin/users/update/{num}', array('before' => 'auth', 'uses' => 'UsersController@update'));
 Route::post('/admin/users/save-update', array('before' => 'auth', 'uses' => 'UsersController@save_update'));
 Route::get('/admin/users/details/{num}', array('before' => 'auth', 'uses' => 'UsersController@details'));

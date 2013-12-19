@@ -53,7 +53,7 @@ class UsersController extends BaseController
 		$user->active = 1;
         $user->user_type = Input::get('user_type');
 
-        if($user->user_type == 2)
+        if($user->user_type == 4)
         {
         	$user->user_id = Input::get('user_id');
         }
@@ -64,6 +64,29 @@ class UsersController extends BaseController
 			'type' => 'success',
 			'message' => 'Usuario creado.'
 		));
+	}
+
+	public function save_create_ajax()
+	{
+		
+		$user = new User;
+
+		$user->name = Input::get('name');
+		$user->patern_name = Input::get('patern_name');
+		$user->matern_name = Input::get('matern_name');
+		$user->email = Input::get('email');
+		$user->password = Hash::make(Input::get('password'));
+		$user->active = 1;
+        $user->user_type = Input::get('user_type');
+
+        if($user->user_type == 4)
+        {
+        	$user->user_id = Input::get('user_id');
+        }
+
+		$user->save();
+
+		return $user;
 	}
 
 	public function update($id)
