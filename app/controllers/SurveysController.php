@@ -446,7 +446,19 @@ class SurveysController extends BaseController
 
     public function get_child_users()
     {
-        return User::find(Input::get('user_id'))->users;
+        $users = User::find(Input::get('user_id'));
+
+        if($users)
+        {
+            return $users->users;
+        }
+        else 
+        {
+            return array();
+        }
+
+        return User::find(Input::get('user_id'));
+
     }
 
 }
