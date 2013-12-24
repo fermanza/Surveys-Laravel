@@ -95,6 +95,7 @@ class UsersController extends BaseController
 			->with('section', 'Modificar Usuario')
 			->with('action', 'save-update')
 			->with('user', User::find($id))
+			->with('users', User::where('user_type', '=', 2)->get())
                         ->with('user_type', UserType::all());
 	}
 
