@@ -175,6 +175,12 @@
         $('input.age-text').keyup(function(){
             var age = $(this).val();
 
+            if(age < 18) {
+                $(this).css('color', 'red');
+            } else {
+                $(this).css('color', 'black');
+            }
+
             if(age > 18 && age<=25) {
                 $('select#estimated_age').val(1);
             } else if(age > 26 && age <= 30) {
@@ -342,7 +348,8 @@
         <div class="form-group">
             <label for="" class="col-sm-2 control-label">Supervisor</label>
             <div class="col-sm-6">
-                <select name="" id="users" class="form-control">
+                <select name="" id="users" class="form-control" data-placeholder="Selecciona un supervisor...">
+                    <option value="0">Selecciona un supervisor...</option>
                     @foreach($users as $user)
                     <option value="{{$user->id}}">{{$user->name.' '.$user->patern_name.' '.$user->matern_name}}</option>
                     @endforeach
@@ -353,7 +360,7 @@
         <div class="form-group">
             <label for="" class="col-sm-2 control-label">Encuestador</label>
             <div class="col-sm-6">
-                <select name="user_id" id="child-users" class="form-control validate-input" >
+                <select name="user_id" id="child-users" class="form-control validate-input" data-placeholder="Selecciona un encuestador..." >
                     
                 </select>
             </div>
@@ -438,7 +445,26 @@
         <div class="form-group {{($errors->has('suburb') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Área</label>
             <div class="col-sm-6" name="suburb_container" id="suburb_container">
+                <select name="area" id="area" class="form-control">
+                    <option value="0">Selecciona un área</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                </select>
+
+                <!--
                 {{Form::text('area', '', array('class' => 'form-control validate-input', 'maxlength' => 2))}}
+                -->
             </div>
         </div>
 
@@ -529,8 +555,8 @@
             <label for="" class="col-sm-2 control-label">Tipo de respuesta</label>
             <div class="col-sm-6">
                 <select name="response_type" id="" class="form-control validate-input">
-                    <option value="0">Telefónica</option>
-                    <option value="1">Personal</option>
+                    <option value="1">Telefónica</option>
+                    <option value="2">Personal</option>
                 </select>
             </div>
         </div>
