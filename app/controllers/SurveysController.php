@@ -129,6 +129,7 @@ class SurveysController extends BaseController
         $questionary_made->state_id = Input::get('state');
         $questionary_made->district_id = Input::get('district');
         $questionary_made->township_id = Input::get('township');
+        $questionary_made->neighborhood_id = Input::get('neighborhood');
         $questionary_made->folio = Input::get('folio');
         $questionary_made->user_create = Auth::user()->id;
         $questionary_made->user_id = Input::get('user_id');
@@ -155,7 +156,8 @@ class SurveysController extends BaseController
             $questionary_made->suburb_id = Input::get('suburb');                
         }
         
-        $questionary_made->date = Input::get('date');
+        $questionary_made->date = date('Y-m-d');
+        // $questionary_made->date = Input::get('date');
         // $questionary_made->actitude = Input::get('actitude');
         // $questionary_made->incomming = Input::get('incomming');
         $questionary_made->estimated_age = Input::get('estimated_age');
@@ -241,7 +243,16 @@ class SurveysController extends BaseController
                     $qma = new QuestionaryMadeAnswers;
 
                     $qma->questionary_made_id = Input::get('questionary_made_id');
-                    $qma->answer_id = $answers_radio[$question->id];
+
+                    if(empty($answers_radio[$question->id]))
+                    {
+                        $qma->answer_id = NULL;
+                    }
+                    else
+                    {
+                        $qma->answer_id = $answers_radio[$question->id];                        
+                    }
+
                     $qma->answer_text = "";
                     $qma->which = "";
                     $qma->question_id = $question->id;
@@ -312,12 +323,12 @@ class SurveysController extends BaseController
                     ->where('state_id', '=', $state_id)
                     ->get();
             
-            $districts_array = array();
-            foreach($districts as $district){
-                $districts_tmp = array("id"=>$district->id, "name"=>$district->name);
-                array_push($districts_array, $districts_tmp);
-            }
-            return $districts_array;
+            // $districts_array = array();
+            // foreach($districts as $district){
+            //     $districts_tmp = array("id"=>$district->id, "name"=>$district->name);
+            //     array_push($districts_array, $districts_tmp);
+            // }
+            return $districts;
         }
         
         public function get_township(){
@@ -352,12 +363,29 @@ class SurveysController extends BaseController
                     ->where('township_id', '=', $township_id)
                     ->get();
             
-            $suburb_array = array();
-            foreach($suburbs as $suburb){
-                $suburb_tmp = array("id"=>$suburb->id, "name"=>$suburb->name);
-                array_push($suburb_array, $suburb_tmp);
-            }
-            return $suburb_array;
+            // $suburb_array = array();
+            // foreach($suburbs as $suburb){
+            //     $suburb_tmp = array("id"=>$suburb->id, "name"=>$suburb->name);
+            //     array_push($suburb_array, $suburb_tmp);
+            // }
+            // return $suburb_array;
+            return $suburbs;
+        }
+
+        public function get_neighborhoods()
+        {
+            $state_id = Input::get('state_id');
+            $district_id = Input::get('district_id');
+            $township_id = Input::get('township_id');
+            $suburb_id = Input::get('suburb_id');
+
+            $neighborhoods = Neighborhood::where('state_id', '=', $state_id)
+                            ->where('district_id', '=', $district_id)
+                            ->where('township_id', '=', $township_id)
+                            ->where('suburb_id', '=', $suburb_id)
+                            ->get();
+
+            return $neighborhoods;
         }
 
 	public function update($id)
@@ -459,6 +487,18 @@ class SurveysController extends BaseController
 
         return User::find(Input::get('user_id'));
 
+    }
+
+    public function get_validation_questions()
+    {
+        $questions = Question::with('answers')
+            ->where('questionary_id', '=', Input::get('questionary_id'))
+            ->where('type', '=', 1)
+            ->orderBy(DB::raw('RAND()'))
+            ->take(3)
+            ->get();
+
+        return $questions;
     }
 
 }
