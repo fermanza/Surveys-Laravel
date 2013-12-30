@@ -14,17 +14,6 @@
             useMode: 2,
             target: "date",
             dateFormat: "%Y/%m/%d"
-            /*selectedDate:{   This is an example of what the full configuration offers.
-             day:5,        For full documentation about these settings please see the full version of the code.
-             month:9,
-             year:2006
-             },
-             yearsRange:[1978,2020],
-             limitToToday:false,
-             cellColorScheme:"beige",
-             dateFormat:"%m-%d-%Y",
-             imgPath:"img/",
-             weekStartDay:1*/
         });
     };
 
@@ -52,132 +41,6 @@
         return submit;
     }
     
-    // function getDistricts() {
-        
-    //     var state_id = $('#state').val();
-    //     if( state_id == 0 ){
-    //         var district_select = '<select name="state" id="state" class="form-control" onChange="getTownships();" disabled></select>';
-    //         document.getElementById('district_container').innerHTML=district_select;
-    //         var township_select = '<select name="district" id="district" class="form-control" onChange="getSuburbs();" disabled></select>';
-    //         document.getElementById('township_container').innerHTML=township_select;
-    //         var suburb_select = '<select name="suburb" id="suburb" class="form-control" disabled></select>';
-    //         document.getElementById('suburb_container').innerHTML=suburb_select;
-    //         return;
-    //     }
-    //     $.post("{{ URL::to('admin/surveys/get_district') }}", { state_id: state_id }, function(result){
-    //         var district_select = "<select name=district id='district' class='form-control' onChange='getTownships();'>";
-    //         district_select += "<option value='0'>- Seleccione un Distrito -</option>";
-    //         $.each(result, function(key, value) {
-    //         district_select += "<option value='"+value.id+"'>"+value.id+".- "+value.name+"</option>";
-    //         });
-    //         district_select += "</select>";
-    //         document.getElementById('district_container').innerHTML=district_select;
-            
-    //         var township_select = '<select name="township" id="township" class="form-control" onChange="getSuburbs();" disabled></select>';
-    //         document.getElementById('township_container').innerHTML=township_select;
-    //         var suburb_select = '<select name="suburb" id="suburb" class="form-control" disabled></select>';
-    //         document.getElementById('suburb_container').innerHTML=suburb_select;
-    //     });
-    // }
-    
-    // function getTownships() {
-        
-    //     var state_id = $('#state').val();
-    //     var district_id = $('#district').val();
-    //     if( state_id == 0 ){
-    //         var district_select = '<select name="state" id="state" class="form-control" onChange="getTownships();" disabled></select>';
-    //         document.getElementById('district_container').innerHTML=district_select;
-    //         var township_select = '<select name="district" id="district" class="form-control" onChange="getSuburbs();" disabled></select>';
-    //         document.getElementById('township_container').innerHTML=township_select;
-    //         var suburb_select = '<select name="suburb" id="suburb" class="form-control" disabled></select>';
-    //         document.getElementById('suburb_container').innerHTML=suburb_select;
-    //         return;
-    //     }
-    //     if( district_id == 0 ){
-    //         var township_select = '<select name="district" id="district" class="form-control" onChange="getSuburbs();" disabled></select>';
-    //         document.getElementById('township_container').innerHTML=township_select;
-    //         var suburb_select = '<select name="suburb" id="suburb" class="form-control" disabled></select>';
-    //         document.getElementById('suburb_container').innerHTML=suburb_select;
-    //         return;
-    //     }
-        
-    //     $.post("{{ URL::to('admin/surveys/get_township') }}", 
-    //             { state_id: state_id, district_id: district_id }, function(result){
-    //         var township_select = "<select name=township id='township' class='form-control' onChange='getSuburbs();'>";
-    //         township_select += "<option value='0'>- Seleccione un Corregimiento -</option>";
-    //         $.each(result, function(key, value) {
-    //             township_select += "<option value='"+value.id+"'>"+value.id+".- "+value.name+"</option>";
-    //         });
-    //         township_select += "</select>";
-    //         document.getElementById('township_container').innerHTML=township_select;
-            
-    //         var suburb_select = '<select name="suburb" id="suburb" class="form-control" disabled></select>';
-    //         document.getElementById('suburb_container').innerHTML=suburb_select;
-    //     });
-    // }
-    
-    // function getSuburbs() {
-        
-    //     var state_id = $('#state').val();
-    //     var district_id = $('#district').val();
-    //     var township_id = $('#township').val();
-    //     if( state_id == 0 ){
-    //         var district_select = '<select name="state" id="state" class="form-control" onChange="getTownships();" disabled></select>';
-    //         document.getElementById('district_container').innerHTML=district_select;
-    //         var township_select = '<select name="district" id="district" class="form-control" onChange="getSuburbs();" disabled></select>';
-    //         document.getElementById('township_container').innerHTML=township_select;
-    //         var suburb_select = '<select name="suburb" id="suburb" class="form-control" disabled></select>';
-    //         document.getElementById('suburb_container').innerHTML=suburb_select;
-    //         return;
-    //     }
-    //     if( district_id == 0 ){
-    //         var township_select = '<select name="district" id="district" class="form-control" onChange="getSuburbs();" disabled></select>';
-    //         document.getElementById('township_container').innerHTML=township_select;
-    //         var suburb_select = '<select name="suburb" id="suburb" class="form-control" disabled></select>';
-    //         document.getElementById('suburb_container').innerHTML=suburb_select;
-    //         return;
-    //     }
-    //     if( township_id == 0 ){
-    //         var suburb_select = '<select name="suburb" id="suburb" class="form-control"disabled></select>';
-    //         document.getElementById('suburb_container').innerHTML=suburb_select;
-    //         return;
-    //     }
-        
-    //     $.post("{{ URL::to('admin/surveys/get_suburbs') }}", 
-    //             { state_id: state_id, district_id: district_id, township_id: township_id }, function(result){
-    //         var suburb_select = "<select name='suburb' id='suburb' class='form-control'>";
-    //         suburb_select += "<option value='0'>- Seleccione un Lugar Poblado -</option>";
-    //         $.each(result, function(key, value) {
-    //             suburb_select += "<option value='"+value.id+"'>"+value.id+".- "+value.name+"</option>";
-    //         });
-    //         suburb_select += "</select>";
-    //         document.getElementById('suburb_container').innerHTML=suburb_select;
-    //     });
-    // }
-
-    // function getNeighborhoods() {
-
-    //     var state_id = $('#state').val();
-    //     var district_id = $('#district').val();
-    //     var township_id = $('#township').val();
-    //     var neighborhood_id = $('#neighborhood').val();
-
-    //     $.post('{{URL::to('admin/surveys/get_neighborhoods')}}',
-    //             { state_id: state_id, district_id: district_id, township_id: township_id, neighborhood_id: neighborhood_id },
-    //             function(data) {
-    //                 $('#neighborhood').empty();
-
-    //                 for(var key in data) {
-    //                     var option = $('<option></option>');
-
-    //                     option.val(data[key].id);
-    //                     option.html(data[key].name);
-
-    //                     $('#neighborhood').append(option);
-    //                 }
-    //             });
-    // }
-    
     function cancel () {
         window.location.href="{{ URL::to('admin/surveys/'.$id_questionary) }}";
     }
@@ -189,7 +52,7 @@
 
             $.post("{{ URL::to('admin/surveys/get_district') }}", { state_id: state_id }, function(data){
 
-                $('#district').empty();
+                $('#district').empty().append('<option value="0">Selecciona un distrito</option>');
 
                 for(var key in data) {
                     var option = $('<option></option>');
@@ -209,7 +72,7 @@
             var district_id = $(this).val();
 
             $.post("{{ URL::to('admin/surveys/get_township') }}", { state_id: state_id, district_id: district_id }, function(data) {
-                $('#township').empty();
+                $('#township').empty().append('<option value="0">Selecciona un corregimiento</option>');
 
                 for(var key in data) {
                     var option = $('<option></option>');
@@ -230,7 +93,7 @@
             var township_id = $(this).val();
 
             $.post("{{ URL::to('admin/surveys/get_suburbs'); }}", {state_id: state_id, district_id: district_id, township_id: township_id}, function(data) {
-                $('#suburb').empty();
+                $('#suburb').empty().append('<option value="0">Selecciona un lugar poblado</option>');
 
                 for(var key in data) {
                     var option = $('<option></option>');
@@ -253,7 +116,7 @@
 
             $.post("{{ URL::to('admin/surveys/get_neighborhoods'); }}", { state_id: state_id, district_id: district_id, township_id: township_id, suburb_id: suburb_id }, function(data){
 
-                $('#neighborhood').empty();
+                $('#neighborhood').empty().append('<option value="0">Selecciona una barriada</option>');
 
                 for(var key in data) {
                     var option = $('<option></option>');
@@ -575,7 +438,6 @@
                     <option value="12">12</option>
                     <option value="13">13</option>
                 </select>
-
                 <!--
                 {{Form::text('area', '', array('class' => 'form-control validate-input', 'maxlength' => 2))}}
                 -->
