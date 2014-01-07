@@ -322,12 +322,7 @@ class SurveysController extends BaseController
                     where('country_id', '=', $country_id)
                     ->where('state_id', '=', $state_id)
                     ->get();
-            
-            // $districts_array = array();
-            // foreach($districts as $district){
-            //     $districts_tmp = array("id"=>$district->id, "name"=>$district->name);
-            //     array_push($districts_array, $districts_tmp);
-            // }
+                    
             return $districts;
         }
         
@@ -342,12 +337,7 @@ class SurveysController extends BaseController
                     ->where('district_id', '=', $district_id)
                     ->get();
             
-            $townships_array = array();
-            foreach($townships as $township){
-                $townships_tmp = array("id"=>$township->id, "name"=>$township->name);
-                array_push($townships_array, $townships_tmp);
-            }
-            return $townships_array;
+            return $townships;
         }
         
         public function get_suburbs(){

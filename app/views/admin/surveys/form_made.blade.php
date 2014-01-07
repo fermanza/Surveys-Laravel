@@ -58,7 +58,7 @@
                     var option = $('<option></option>');
 
                     option.val(data[key].id);
-                    option.html( (parseInt(key)+1)+'.- ' + data[key].name);
+                    option.html( data[key].number + '.- ' + data[key].name);
 
                     $('#district').append(option);
                 }
@@ -78,7 +78,7 @@
                     var option = $('<option></option>');
 
                     option.val(data[key].id);
-                    option.html( (parseInt(key)+1)+'.- ' + data[key].name);
+                    option.html( data[key].number + '.- ' + data[key].name);
 
                     $('#township').append(option);
                 }
@@ -99,7 +99,7 @@
                     var option = $('<option></option>');
 
                     option.val(data[key].id);
-                    option.html( (parseInt(key)+1)+'.- ' + data[key].name);
+                    option.html( data[key].number + '.- ' + data[key].name);
 
                     $('#suburb').append(option);
                 }
@@ -122,7 +122,7 @@
                     var option = $('<option></option>');
 
                     option.val(data[key].id);
-                    option.html( (parseInt(key)+1)+'.- ' + data[key].name);
+                    option.html( data[key].number + '.- ' + data[key].name);
 
                     $('#neighborhood').append(option);
                 }
@@ -360,7 +360,7 @@
                 <select name="state" id="state" class="form-control validate-input">
                 <option value='0'>- Seleccione una Provincia -</option>
                     @foreach( $states as $state )
-                        <option value="{{$state->id}}">{{$state->id}}.- {{$state->name}}</option>
+                        <option value="{{$state->id}}">{{$state->number}}.- {{$state->name}}</option>
                     @endforeach
                 </select>
             </div>
