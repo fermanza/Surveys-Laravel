@@ -117,6 +117,7 @@ class SurveysController extends BaseController
                     ->with('country', $country)
                     ->with('states', $states)
                     ->with('users', User::where('user_type', '=', 2)->get())
+                    ->with('sub_users', User::where('user_type', '=', 4)->get())
                     ->with('action', 'save-create-made');
 	}
 
@@ -322,7 +323,7 @@ class SurveysController extends BaseController
                     where('country_id', '=', $country_id)
                     ->where('state_id', '=', $state_id)
                     ->get();
-                    
+
             return $districts;
         }
         

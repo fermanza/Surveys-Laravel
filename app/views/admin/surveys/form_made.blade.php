@@ -190,24 +190,24 @@
 
         });
 
-        $('#users').change(function(){
+        // $('#users').change(function(){
 
-            $.post('{{url('/admin/surveys/get-child-users')}}', { user_id: $(this).val() }, function(data){
+        //     $.post('{{url('/admin/surveys/get-child-users')}}', { user_id: $(this).val() }, function(data){
 
-                $('#child-users').empty();
+        //         $('#child-users').empty();
 
-                for(var key in data) {
-                    var temp_option = $('<option></option>');
-                    temp_option.html(data[key].name+' '+data[key].patern_name+' '+data[key].matern_name);
-                    temp_option.val(data[key].id);
-                    $('#child-users').append(temp_option);
+        //         for(var key in data) {
+        //             var temp_option = $('<option></option>');
+        //             temp_option.html(data[key].name+' '+data[key].patern_name+' '+data[key].matern_name);
+        //             temp_option.val(data[key].id);
+        //             $('#child-users').append(temp_option);
 
-                }
+        //         }
 
-                $('#child-users').trigger("chosen:updated");
-            });
+        //         $('#child-users').trigger("chosen:updated");
+        //     });
 
-        });
+        // });
 
         $('#users').chosen();
         $('#child-users').chosen();
@@ -330,7 +330,10 @@
             <label for="" class="col-sm-2 control-label">Encuestador</label>
             <div class="col-sm-6">
                 <select name="user_id" id="child-users" class="form-control validate-input" data-placeholder="Selecciona un encuestador..." >
-                    
+                    <option value="0">Selecciona un encuestador...</option>
+                    @foreach($sub_users as $user)
+                    <option value="{{$user->id}}">{{$user->name.' '.$user->patern_name.' '.$user->matern_name}}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="col-sm-2">
