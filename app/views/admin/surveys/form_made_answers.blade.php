@@ -5,6 +5,39 @@
     <script>
         jQuery(document).ready(function($) {
 
+            $('div.panel:eq(1)').removeClass('panel-default').addClass('panel-primary');
+
+            $('div.panel').click(function(){
+                if($(this).is('div.panel-default')) {
+                    $('div.panel-primary').removeClass('panel-primary').addClass('panel-default');
+                    $(this).addClass('panel-primary').removeClass('panel-default');
+                }
+            });
+
+            $(document).keyup(function(event){
+
+                if(event.keyCode > 48 && event.keyCode < 59) {
+                    var selected_panel = $('div.panel-primary');
+                    var radio_inputs = selected_panel.find('input[type=radio]');
+                    var selected_answer = event.keyCode - 48;
+
+                    if(selected_answer > radio_inputs.size()) {
+                        alert('La respuesta que seleccionaste no existe');
+                    } else {
+                        radio_inputs.eq(selected_answer-1).prop('checked', true);
+                        selected_panel.removeClass('panel-primary').addClass('panel-default');
+                        var next_panel = selected_panel.next();
+
+                        if(next_panel.is('div.panel')) {
+                            next_panel.removeClass('panel-default').addClass('panel-primary');
+                            $('html, body').animate( { scrollTop: $(next_panel).offset().top - 55 }, 300 );
+                            console.log($(next_panel).offset().top);
+                        }
+                    }
+                }
+
+            });
+
             $('input[type=checkbox]').click(function(){
                 if($('input[type=checkbox]:checked').size() > 2)
                 {
@@ -141,59 +174,50 @@
     <fieldset>
         <legend>Nueva Encuesta</legend>
 
-        <table class="table">
-            <thead>
-                <th>N&uacute;mero</th>
-                <th>Pregunta</th>
-            </thead>
-            <tbody>
-            <?php $i = 1; ?>
-            @foreach($questions as $question)
-                <tr>
-                    <td>{{ $i }}</td>
-                    <td>{{$question->question}}</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        @if($question->type == 3)
-                        <div class="col-sm-6">
-                            @foreach($answers[$question->id] as $answer)
-                                <input type="checkbox" name="answers_checkbox[{{ $question->id }}][]"
-                                       value="{{ $answer->id }}">&nbsp;{{ $answer->answer }}<br />
-                            @endforeach
-                        </div>
-                        @else
-                        <div class="col-sm-6">
-                            @foreach($answers[$question->id] as $answer)
-                                <input type="radio" name="answers_radio[{{ $question->id }}]"
-                                       value="{{ $answer->id }}" data-question="{{$i}}">&nbsp;{{ $answer->answer }}<br />
-                            @endforeach
-                            <input type="radio" name="answers_radio[{{ $question->id }}]"
-                                       value="" data-question="{{$i}}">&nbsp; No respondió / Respuesta en blanco<br />
-                        </div>                        
-                        @endif
-                    </td>
-                </tr>
-            <?php $i++ ?>
-            @endforeach
-            <tr>
-                <td></td>
-                <th>&iquest;Nos autoriza ud a que cuando este lista le hagamos llegar a
+        <?php $i = 1; ?>
+        @foreach($questions as $question)
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ $i .' .- '. $question->question}}
+            </div>
+            <div class="panel-body">
+                @if($question->type == 3)
+                <div class="col-sm-6">
+                    @foreach($answers[$question->id] as $answer)
+                        <input type="checkbox" name="answers_checkbox[{{ $question->id }}][]"
+                               value="{{ $answer->id }}">&nbsp;{{ $answer->answer }}<br />
+                    @endforeach
+                </div>
+                @else
+                <div class="col-sm-6">
+                    @foreach($answers[$question->id] as $answer)
+                        <input type="radio" name="answers_radio[{{ $question->id }}]"
+                               value="{{ $answer->id }}" data-question="{{$i}}">&nbsp;{{ $answer->answer }}<br />
+                    @endforeach
+                    <input type="radio" name="answers_radio[{{ $question->id }}]"
+                               value="" data-question="{{$i}}">&nbsp; No respondió / Respuesta en blanco<br />
+                </div>                        
+                @endif
+            </div>
+        </div>
+        <?php $i++; ?>
+        @endforeach
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                &iquest;Nos autoriza ud a que cuando este lista le hagamos llegar a
                     esta residencia la tarjeta La Pasiera con los beneficios que
-                    la misma con lleva?</th>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <div class="col-sm-6">
-                        <input type="radio" name="form_respondent" value="1">&nbsp;Si<br />
-                        <input type="radio" name="form_respondent" value="2">&nbsp;No
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    la misma con lleva?
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-6">
+                    <input type="radio" name="form_respondent" value="1">&nbsp;Si<br />
+                    <input type="radio" name="form_respondent" value="2">&nbsp;No
+                </div>
+            </div>
+        </div>
+
         {{Form::button('Guardar', array('class' => 'btn btn-default', 'id' => 'btn-submit-form'))}}
     
     </fieldset>
