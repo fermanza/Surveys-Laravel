@@ -7,12 +7,12 @@
 
             $('div.panel:eq(1)').removeClass('panel-default').addClass('panel-primary');
 
-            $('div.panel').click(function(){
-                if($(this).is('div.panel-default')) {
-                    $('div.panel-primary').removeClass('panel-primary').addClass('panel-default');
-                    $(this).addClass('panel-primary').removeClass('panel-default');
-                }
-            });
+            // $('div.panel').click(function(){
+            //     if($(this).is('div.panel-default')) {
+            //         $('div.panel-primary').removeClass('panel-primary').addClass('panel-default');
+            //         $(this).addClass('panel-primary').removeClass('panel-default');
+            //     }
+            // });
 
             $(document).keyup(function(event){
 
@@ -138,8 +138,12 @@
 
                 });
 
-                if(validation_questions_flag) {
-                    $('form#preguntas').submit();
+                if($('input.validation-answer:checked').size() == 3) {
+                    if( validation_questions_flag ) {
+                        $('form#preguntas').submit();
+                    }                    
+                } else {
+                    alert('Debes de seleccionar las 3 respuestas');
                 }
             });
         });
@@ -184,20 +188,24 @@
             <div class="panel-body">
                 @if($question->type == 3)
                 <div class="col-sm-6">
+                    <?php $j = 1; ?>
                     @foreach($answers[$question->id] as $answer)
                         <input type="checkbox" name="answers_checkbox[{{ $question->id }}][]"
-                               value="{{ $answer->id }}">&nbsp;{{ $answer->answer }}<br />
+                               value="{{ $answer->id }}">&nbsp; {{$j. '.- '}} {{ $answer->answer }}<br />
+                        <?php $j++; ?> 
                     @endforeach
                 </div>
                 @else
                 <div class="col-sm-6">
+                    <?php $j = 1; ?>
                     @foreach($answers[$question->id] as $answer)
                         <input type="radio" name="answers_radio[{{ $question->id }}]"
-                               value="{{ $answer->id }}" data-question="{{$i}}">&nbsp;{{ $answer->answer }}<br />
+                               value="{{ $answer->id }}" data-question="{{$i}}">&nbsp; {{$j. '.- '}} {{ $answer->answer }}<br />
+                        <?php $j++; ?>
                     @endforeach
                     <input type="radio" name="answers_radio[{{ $question->id }}]"
                                value="" data-question="{{$i}}">&nbsp; No respondió / Respuesta en blanco<br />
-                </div>                        
+                </div>
                 @endif
             </div>
         </div>
