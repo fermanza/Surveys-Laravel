@@ -91,6 +91,7 @@
 		<script src="{{asset('js/jquery.js')}}"></script>
 		<script src="{{asset('js/jquery-ui-1.10.3.custom.min.js')}}"></script>
 		<script src="{{asset('js/bootstrap.min.js')}}"></script>
+		<script src="{{asset('js/main.js')}}"></script>
 		<script>
 			jQuery(document).ready(function($) {
 				$('.input-date').datepicker({ dateFormat: 'yy-mm-dd' });

@@ -32,6 +32,10 @@
         }
 
         jQuery(document).ready(function($) {
+            $('#main-form').submit(function(){
+                return validateForm();
+            });
+
             $('form').bind("keyup keypress", function(e) {
                 var code = e.keyCode || e.which; 
                 if (code  == 13) {               
@@ -74,7 +78,7 @@
     </script>
 @endsection
 
-    {{Form::open( array('url' => '/admin/surveys/'.$action, 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal' ) )}}
+    {{Form::open( array('url' => '/admin/surveys/'.$action, 'method' => 'POST', 'role' => 'form', 'class' => 'form-horizontal', 'id' => 'main-form' ) )}}
     {{Form::hidden('id', $id_questionary)}}
     <fieldset>
         <legend>Nueva Encuesta</legend>
@@ -92,7 +96,7 @@
         <div class="form-group {{($errors->has('name') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Nombre</label>
             <div class="col-sm-6">
-                {{Form::text('name', $value = null, array('id' => 'name', 'class' => 'form-control') )}}
+                {{Form::text('name', $value = null, array('id' => 'name', 'class' => 'form-control validate-input') )}}
                 @if($errors->has('name'))
                     <span class="help-block">{{$errors->first('name')}}</span>
                 @endif
@@ -102,7 +106,7 @@
         <div class="form-group {{($errors->has('patern_name') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Apellido Paterno</label>
             <div class="col-sm-6">
-                {{Form::text('patern_name', $value = null, array('id' => 'pattern_name', 'class' => 'form-control') )}}
+                {{Form::text('patern_name', $value = null, array('id' => 'pattern_name', 'class' => 'form-control validate-input') )}}
                 @if($errors->has('patern_name'))
                     <span class="help-block">{{$errors->first('patern_name')}}</span>
                 @endif
@@ -163,7 +167,7 @@
         <div class="form-group {{($errors->has('cologne') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Calle</label>
             <div class="col-sm-6">
-                {{Form::text('street', $value = null, array('id' => 'street', 'class' => 'form-control') )}}
+                {{Form::text('street', $value = null, array('id' => 'street', 'class' => 'form-control validate-input') )}}
                 @if($errors->has('street'))
                     <span class="help-block">{{$errors->first('street')}}</span>
                 @endif
@@ -193,7 +197,7 @@
         <div class="form-group {{($errors->has('location_reference') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Referencia de ubicación</label>
             <div class="col-sm-6">
-                {{Form::text('location_reference', $value = null, array('class' => 'form-control') )}}
+                {{Form::text('location_reference', $value = null, array('class' => 'form-control validate-input') )}}
                 @if($errors->has('location_reference'))
                     <span class="help-block">{{$errors->first('location_reference')}}</span>
                 @endif
