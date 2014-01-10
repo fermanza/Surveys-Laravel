@@ -222,10 +222,11 @@ Route::post('/ws-content/json/ws-send', function(){
 	$questionary_made->district_id = $data_decoded->more->id_district;
 	$questionary_made->township_id = $data_decoded->more->id_town;
 	// $questionary_made->suburb_id = $data_decoded->location->id_cologne;
-	$questionary_made->suburb_id = $data_decoded->respondent->domicile->cologne;
+	$questionary_made->suburb_id = $data_decoded->more->id_cologne;
 	$questionary_made->area = $data_decoded->more->area;
 	$questionary_made->zone = $data_decoded->more->zone;
 	$questionary_made->age = $data_decoded->more->age;
+	$questionary_made->folio = $data_decoded->more->folio;
 
 	if( !empty($data_decoded->respondent->name) )
 	{
