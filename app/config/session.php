@@ -94,7 +94,7 @@ return array(
 	|
 	*/
 
-	'cookie' => 'laravel_session',
+	'cookie' => 'vsencuestas_panama_session',
 
 	/*
 	|--------------------------------------------------------------------------
