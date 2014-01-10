@@ -534,8 +534,8 @@
             <label for="" class="col-sm-2 control-label">Tipo de respuesta</label>
             <div class="col-sm-6">
                 <select name="response_type" id="" class="form-control validate-input">
-                    <option value="1">Telefónica</option>
                     <option value="2">Personal</option>
+                    <option value="1">Telefónica</option>
                 </select>
             </div>
         </div>
