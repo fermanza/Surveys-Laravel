@@ -21,7 +21,7 @@
                     var radio_inputs = selected_panel.find('input[type=radio]');
                     var selected_answer = event.keyCode - 48;
 
-                    if(selected_answer > radio_inputs.size()) {
+                    if(selected_answer > radio_inputs.size() && radio_inputs.size() > 0) {
                         alert('La respuesta que seleccionaste no existe');
                     } else {
                         radio_inputs.eq(selected_answer-1).prop('checked', true);
@@ -48,6 +48,7 @@
             $('#btn-submit-form').click(function() {
 
                 var radios = $('input[type=radio]');
+                var checkbox = $('input[type=checkbox]');
                 var validation_flag = true;
                 var group_name = '';
                 var group_question_number = '';
@@ -72,7 +73,26 @@
                     {
                         radio_checked = 1;
                     }
+                });
 
+                $(checkbox).each(function(){
+                   if(group_name != $(this).attr('name')) {
+                        group_name = $(this).attr('name');
+
+                        if(radio_checked == 0) {
+                            validation_flag = false;
+                            response = response + group_question_number + '\n';
+                        } else  {
+                            radio_checked = 0;
+                        }
+
+                        group_question_number = $(this).data('question');
+                    }
+
+                    if($(this).is(':checked'))
+                    {
+                        radio_checked = 1;
+                    } 
                 });
 
                 if(!validation_flag) {
