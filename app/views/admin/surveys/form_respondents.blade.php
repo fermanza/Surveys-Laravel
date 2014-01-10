@@ -171,7 +171,7 @@
         </div>
 
         <div class="form-group {{($errors->has('exterior_number') ? 'has-error' : '')}} ">
-            <label for="" class="col-sm-2 control-label">Número exterior</label>
+            <label for="" class="col-sm-2 control-label">Casa/Apartamento</label>
             <div class="col-sm-6">
                 {{Form::text('exterior_number', $value = null, array('id' => 'exterior_number', 'class' => 'form-control') )}}
                 @if($errors->has('exterior_number'))
@@ -180,7 +180,7 @@
             </div>
         </div>
 
-        <div class="form-group {{($errors->has('interior_number') ? 'has-error' : '')}} ">
+        <!-- <div class="form-group {{($errors->has('interior_number') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Número interior</label>
             <div class="col-sm-6">
                 {{Form::text('interior_number', $value = null, array('id' => 'interior_number', 'class' => 'form-control') )}}
@@ -188,7 +188,7 @@
                     <span class="help-block">{{$errors->first('interior_number')}}</span>
                 @endif
             </div>
-        </div>
+        </div> -->
 
         <div class="form-group {{($errors->has('location_reference') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Referencia de ubicación</label>

@@ -303,7 +303,7 @@ class SurveysController extends BaseController
             $respondent->identity_document = Input::get('identity_document');
             $respondent->street = Input::get('street');
             $respondent->exterior_number = Input::get('exterior_number');
-            $respondent->interior_number = Input::get('interior_number');
+            // $respondent->interior_number = Input::get('interior_number');
             $respondent->location_reference = Input::get('location_reference');
             
             $respondent->save();
