@@ -78,7 +78,15 @@ class SurveysController extends BaseController
             );
 
             foreach($questionary->answers as $answer):
-                array_push($tempRow, $answer->answer->answer);
+                if(!is_null($answer->answer)) 
+                {
+                    array_push($tempRow, $answer->answer->answer_number);
+                }
+                else 
+                {
+                    array_push($tempRow, '0');
+                }
+
             endforeach;
 
             $csvFile->writeRow($tempRow);
@@ -353,13 +361,7 @@ class SurveysController extends BaseController
                     ->where('district_id', '=', $district_id)
                     ->where('township_id', '=', $township_id)
                     ->get();
-            
-            // $suburb_array = array();
-            // foreach($suburbs as $suburb){
-            //     $suburb_tmp = array("id"=>$suburb->id, "name"=>$suburb->name);
-            //     array_push($suburb_array, $suburb_tmp);
-            // }
-            // return $suburb_array;
+                    
             return $suburbs;
         }
 
