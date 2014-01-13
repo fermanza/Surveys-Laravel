@@ -370,12 +370,12 @@ class SurveysController extends BaseController
             $state_id = Input::get('state_id');
             $district_id = Input::get('district_id');
             $township_id = Input::get('township_id');
-            $suburb_id = Input::get('suburb_id');
+            // $suburb_id = Input::get('suburb_id');
 
             $neighborhoods = Neighborhood::where('state_id', '=', $state_id)
                             ->where('district_id', '=', $district_id)
                             ->where('township_id', '=', $township_id)
-                            ->where('suburb_id', '=', $suburb_id)
+                            // ->where('suburb_id', '=', $suburb_id)
                             ->get();
 
             return $neighborhoods;

@@ -68,8 +68,9 @@
             var district_id = $('#district').val();
             var township_id = $(this).val();
 
-            $.post("{{ URL::to('admin/surveys/get_suburbs'); }}", {state_id: state_id, district_id: district_id, township_id: township_id}, function(data) {
-                $('#suburb').empty().append('<option value="0">Selecciona un lugar poblado</option>');
+            $.post("{{ URL::to('admin/surveys/get_neighborhoods'); }}", { state_id: state_id, district_id: district_id, township_id: township_id }, function(data){
+
+                $('#neighborhood').empty().append('<option value="0">Selecciona una barriada</option>');
 
                 for(var key in data) {
                     var option = $('<option></option>');
@@ -77,12 +78,33 @@
                     option.val(data[key].id);
                     option.html( data[key].number + '.- ' + data[key].name);
 
-                    $('#suburb').append(option);
+                    $('#neighborhood').append(option);
                 }
 
-                $('#suburb').removeAttr('disabled');
+                $('#neighborhood').removeAttr('disabled');
             });
         });
+
+        // $('#township').change(function(){
+        //     var state_id = $('#state').val();
+        //     var district_id = $('#district').val();
+        //     var township_id = $(this).val();
+
+        //     $.post("{{ URL::to('admin/surveys/get_suburbs'); }}", {state_id: state_id, district_id: district_id, township_id: township_id}, function(data) {
+        //         $('#suburb').empty().append('<option value="0">Selecciona un lugar poblado</option>');
+
+        //         for(var key in data) {
+        //             var option = $('<option></option>');
+
+        //             option.val(data[key].id);
+        //             option.html( data[key].number + '.- ' + data[key].name);
+
+        //             $('#suburb').append(option);
+        //         }
+
+        //         $('#suburb').removeAttr('disabled');
+        //     });
+        // });
 
         $('#suburb').change(function(){
             var state_id = $('#state').val();
@@ -361,13 +383,13 @@
             </div>
         </div>
         
-        <div class="form-group {{($errors->has('suburb') ? 'has-error' : '')}} ">
+        <!-- <div class="form-group {{($errors->has('suburb') ? 'has-error' : '')}} ">
             <label for="" class="col-sm-2 control-label">Lugar Poblado</label>
             <div class="col-sm-6" name="suburb_container" id="suburb_container">
                 <select name="suburb" id="suburb" class="form-control validate-input" disabled>
                 </select>
             </div>
-        </div>
+        </div> -->
 
         <!-- <div class="form-group">
             <label for="" class="col-sm-2 control-label">Nuevo Lugar Poblado</label>
