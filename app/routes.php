@@ -227,6 +227,8 @@ Route::post('/ws-content/json/ws-send', function(){
 	$questionary_made->zone = $data_decoded->more->zone;
 	$questionary_made->age = $data_decoded->more->age;
 	$questionary_made->folio = $data_decoded->more->folio;
+	$questionary_made->user_id = $data_decoded->more->id_user;
+	$questionary_made->user_create = $data_decoded->mode->id_user;
 
 	if( !empty($data_decoded->respondent->name) )
 	{
